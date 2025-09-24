@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Basis Data - Gilang Ramadhan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-header {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .profile-card {
+            background: rgba(30, 30, 50, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 20px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-name {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .profile-title {
+            text-align: center;
+            color: #ffd700;
+            font-size: 14px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .profile-info {
+            space-y: 15px;
+        }
+
+        .profile-item {
+            margin-bottom: 18px;
+            padding: 8px 0;
+        }
+
+        .profile-item label {
+            display: block;
+            color: #a0a0a0;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .profile-item value {
+            color: white;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #003d1a;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .recent-posts-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .post-preview {
+            background: rgba(30, 30, 50, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-preview.active {
+            border: 2px solid #3498db;
+            background: rgba(52, 152, 219, 0.15);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .post-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .post-preview:hover::before {
+            opacity: 1;
+        }
+
+        .post-preview:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .post-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .post-preview h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .university-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .university-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 20px;
+            border: 2px solid transparent;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+        }
+
+        .university-link a:hover {
+            color: #2980b9;
+            border-color: #3498db;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.15), rgba(155, 89, 182, 0.15));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+
+
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .post.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .post h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+
+        .post p, .post li {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .post ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        .post li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .post li::marker {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.1);
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.1);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.1);
+        }
+
+        .diagram {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border-radius: 15px;
+            border: 2px dashed #3498db;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #2980b9;
+        }
+
+        @media (max-width: 1024px) {
+            .main-header {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .profile-card {
+                position: static;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .post {
+                padding: 20px;
+            }
+            
+            .nav-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-card {
+                padding: 20px;
+            }
+            
+            .posts-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-header">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <img src="profil.jpg" alt="Foto Profil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: none;" />
+                </div>
+                <div class="profile-name">Gilang Ramadhan</div>
+                <div class="profile-title">Teknik Informatika</div>
+                
+                <div class="profile-info">
+                    <div class="profile-item">
+                        <label>NIM</label>
+                        <value>24416255201003</value>
+                    </div>
+                    
+                    <div class="profile-item">
+                        <label>Email</label>
+                        <value>if24.gilangramadhan@mhs.ubpkarawang.ac.id</value>
+                    </div>
+                    
+                    <div class="profile-item">
+                        <label>Phone</label>
+                        <value>+62 838 7959 1223</value>
+                    </div>
+                    
+                    <div class="profile-item">
+                        <label>Location</label>
+                        <value>Karawang, Jawa Barat/value>
+                    </div>
+                    
+                    <div class="profile-item">
+                        <label>Status</label>
+                        <value><span class="status-badge">Active</span></value>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Posts Section -->
+            <div class="recent-posts-section">
+                <h2 class="section-title">Recent Posts</h2>
+                <div class="posts-grid">
+                    <div class="post-preview active" onclick="showPost('post1')">
+                        <div class="post-icon">💭</div>
+                        <h3>Harapan</h3>
+                        <p>Harapan saya terhadap mata kuliah Basis Data.</p>
+                    </div>
+                    
+                    <div class="post-preview" onclick="showPost('post2')">
+                        <div class="post-icon">💾</div>
+                        <h3>Basis Data</h3>
+                        <p>Apa itu Basis Data?</p>
+                    </div>
+                    
+                    <div class="post-preview" onclick="showPost('post3')">
+                        <div class="post-icon">🎨</div>
+                        <h3>Conceptual Model</h3>
+                        <p>Apa itu Conceptual model?</p>
+                    </div>
+                    
+                    <div class="post-preview" onclick="showPost('post4')">
+                        <div class="post-icon">📊</div>
+                        <h3>Physical Model</h3>
+                        <p>Apa itu Physical model?</p>
+                    </div>
+                </div>
+                
+                <div class="university-link">
+                    <a href="https://www.ubpkarawang.ac.id" target="_blank">www.ubpkarawang.ac.id</a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <article id="post1" class="post active">
+            <h2>Post 1: Apa yang Anda Harapkan dari Mata Kuliah Basis Data</h2>
+            
+            <div class="highlight-box">
+                <h3>🎯 Harapan Pribadi Saya</h3>
+                <p>Sebagai mahasiswa yang mengambil mata kuliah Basis Data, saya memiliki beberapa harapan besar yang ingin dicapai selama proses pembelajaran ini.</p>
+            </div>
+
+            <h3>1. Memahami Konsep Fundamental Database</h3>
+            <p>Saya berharap dapat memahami konsep-konsep dasar dalam basis data seperti normalisasi, relasi antar tabel, dan prinsip-prinsip perancangan database yang baik. Pemahaman ini sangat penting sebagai fondasi dalam pengembangan aplikasi modern.</p>
+
+            <h3>2. Menguasai SQL dan Query Database</h3>
+            <p>Salah satu harapan utama saya adalah dapat menguasai bahasa SQL dengan baik, mulai dari query sederhana hingga query kompleks yang melibatkan join, subquery, dan stored procedure. Kemampuan ini sangat dibutuhkan di dunia kerja.</p>
+
+            <div class="example-box">
+                <h4>Contoh Query yang Ingin Dikuasai:</h4>
+                <ul>
+                    <li>SELECT kompleks dengan multiple JOIN</li>
+                    <li>Stored procedures dan functions</li>
+                    <li>Triggers untuk automation</li>
+                    <li>Indexing untuk optimasi performa</li>
+                </ul>
+            </div>
+
+            <h3>3. Mampu Merancang Database yang Efisien</h3>
+            <p>Saya ingin belajar bagaimana merancang struktur database yang efisien, mulai dari tahap conceptual model hingga physical implementation. Ini termasuk pemahaman tentang Entity Relationship Diagram (ERD) dan normalisasi database.</p>
+
+            <h3>4. Implementasi dalam Proyek Nyata</h3>
+            <p>Harapan saya adalah dapat mengimplementasikan pengetahuan basis data dalam proyek nyata, baik itu web application, mobile app, atau sistem informasi. Pengalaman hands-on ini akan sangat berharga untuk karir di masa depan.</p>
+
+            <div class="warning-box">
+                <h4>⚠️ Tantangan yang Saya Antisipasi</h4>
+                <ul>
+                    <li>Kompleksitas normalisasi database</li>
+                    <li>Optimasi query untuk database besar</li>
+                    <li>Pemahaman konsep indexing dan performance tuning</li>
+                    <li>Integrasi database dengan berbagai teknologi</li>
+                </ul>
+            </div>
+
+            <h3>5. Persiapan untuk Dunia Kerja</h3>
+            <p>Sebagai mahasiswa yang akan memasuki dunia kerja, saya berharap mata kuliah ini dapat mempersiapkan saya dengan skill yang relevan dan dibutuhkan di industri IT, khususnya dalam pengembangan software dan sistem informasi.</p>
+        </article>
+
+        <article id="post2" class="post">
+            <h2>Post 2: Apa itu Basis Data</h2>
+
+            <div class="highlight-box">
+                <h3>📊 Definisi Basis Data</h3>
+                <p>Basis Data (Database) adalah kumpulan data yang terorganisir dan tersimpan secara sistematis dalam sistem komputer, yang dapat diakses, dikelola, dan diperbaharui dengan mudah menggunakan sistem manajemen basis data (DBMS).</p>
+            </div>
+
+            <h3>Karakteristik Utama Basis Data</h3>
+            <ul>
+                <li><strong>Terstruktur:</strong> Data disimpan dalam format yang terorganisir dengan baik</li>
+                <li><strong>Terintegrasi:</strong> Mengurangi redundansi dan inkonsistensi data</li>
+                <li><strong>Dapat Dibagi:</strong> Multiple user dapat mengakses data secara bersamaan</li>
+                <li><strong>Independen:</strong> Data terpisah dari aplikasi yang menggunakannya</li>
+            </ul>
+
+            <h3>Komponen-komponen Basis Data</h3>
+            
+            <div class="example-box">
+                <h4>1. Hardware</h4>
+                <p>Perangkat keras yang digunakan untuk menyimpan dan mengakses data seperti server, storage device, dan network equipment.</p>
+
+                <h4>2. Software</h4>
+                <p>Sistem Manajemen Basis Data (DBMS) seperti MySQL, PostgreSQL, Oracle, SQL Server, dan MongoDB.</p>
+
+                <h4>3. Data</h4>
+                <p>Informasi yang disimpan dalam database, termasuk data operasional dan metadata.</p>
+
+                <h4>4. Users</h4>
+                <p>Pengguna database meliputi database administrator, developer, dan end users.</p>
+
+                <h4>5. Procedures</h4>
+                <p>Aturan dan instruksi untuk menggunakan dan mengelola database.</p>
+            </div>
+
+            <h3>Jenis-jenis Model Basis Data</h3>
+            
+            <h4>1. Relational Database (RDBMS)</h4>
+            <p>Model database yang paling umum digunakan, data disimpan dalam tabel yang saling berelasi. Contoh: MySQL, PostgreSQL, Oracle.</p>
+
+            <h4>2. NoSQL Database</h4>
+            <p>Database non-relational yang cocok untuk big data dan aplikasi real-time. Terbagi menjadi:</p>
+            <ul>
+                <li><strong>Document Database:</strong> MongoDB, CouchDB</li>
+                <li><strong>Key-Value Store:</strong> Redis, DynamoDB</li>
+                <li><strong>Column Family:</strong> Cassandra, HBase</li>
+                <li><strong>Graph Database:</strong> Neo4j, ArangoDB</li>
+            </ul>
+
+            <div class="diagram">
+                <h4>Hierarki Data dalam Database</h4>
+                <p><strong>Database</strong> → <strong>Tables/Collections</strong> → <strong>Records/Documents</strong> → <strong>Fields/Attributes</strong></p>
+            </div>
+
+            <h3>Keuntungan Menggunakan Basis Data</h3>
+            <ul>
+                <li>Mengurangi redundansi data</li>
+                <li>Memastikan konsistensi data</li>
+                <li>Meningkatkan keamanan data</li>
+                <li>Memungkinkan sharing data</li>
+                <li>Standardisasi format data</li>
+                <li>Backup dan recovery yang mudah</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>⚠️ Tantangan dalam Pengelolaan Database</h4>
+                <ul>
+                    <li>Kompleksitas dalam desain dan maintenance</li>
+                    <li>Biaya implementasi dan lisensi</li>
+                    <li>Kebutuhan expertise khusus</li>
+                    <li>Potensi single point of failure</li>
+                    <li>Performance issues pada data besar</li>
+                </ul>
+            </div>
+        </article>
+
+        <article id="post3" class="post">
+            <h2>Post 3: Apa itu Conceptual Database</h2>
+
+            <div class="highlight-box">
+                <h3>🎨 Definisi Conceptual Database</h3>
+                <p>Conceptual Database Model adalah representasi tingkat tinggi dari struktur data yang fokus pada <em>what</em> data yang akan disimpan, bukan <em>how</em> data tersebut akan diimplementasikan. Model ini bersifat platform-independent dan technology-independent.</p>
+            </div>
+
+            <h3>Karakteristik Conceptual Model</h3>
+            <ul>
+                <li><strong>High-Level Abstraction:</strong> Tidak mempertimbangkan detail implementasi teknis</li>
+                <li><strong>Business-Focused:</strong> Berdasarkan kebutuhan bisnis dan domain knowledge</li>
+                <li><strong>Platform Independent:</strong> Tidak terikat pada DBMS atau teknologi tertentu</li>
+                <li><strong>User-Friendly:</strong> Mudah dipahami oleh stakeholders non-teknis</li>
+            </ul>
+
+            <h3>Entity Relationship Diagram (ERD)</h3>
+            <p>ERD adalah tools utama untuk menggambarkan conceptual model. ERD terdiri dari:</p>
+
+            <div class="example-box">
+                <h4>1. Entity</h4>
+                <p>Objek atau konsep yang dapat diidentifikasi secara unik dalam domain bisnis.</p>
+                <ul>
+                    <li><strong>Strong Entity:</strong> Memiliki primary key sendiri</li>
+                    <li><strong>Weak Entity:</strong> Bergantung pada entity lain untuk identifikasi</li>
+                </ul>
+
+                <h4>2. Attributes</h4>
+                <p>Properti atau karakteristik dari entity:</p>
+                <ul>
+                    <li><strong>Simple Attribute:</strong> Tidak dapat dibagi lagi (atomic)</li>
+                    <li><strong>Composite Attribute:</strong> Dapat dibagi menjadi sub-attribute</li>
+                    <li><strong>Derived Attribute:</strong> Diturunkan dari attribute lain</li>
+                    <li><strong>Multi-valued Attribute:</strong> Memiliki multiple values</li>
+                </ul>
+
+                <h4>3. Relationships</h4>
+                <p>Hubungan antara dua atau lebih entity:</p>
+                <ul>
+                    <li><strong>One-to-One (1:1):</strong> Satu entity berhubungan dengan satu entity lain</li>
+                    <li><strong>One-to-Many (1:N):</strong> Satu entity berhubungan dengan banyak entity</li>
+                    <li><strong>Many-to-Many (M:N):</strong> Banyak entity berhubungan dengan banyak entity</li>
+                </ul>
+            </div>
+
+            <h3>Tahapan Pembuatan Conceptual Model</h3>
+            
+            <h4>1. Requirements Analysis</h4>
+            <p>Mengumpulkan dan menganalisis kebutuhan dari stakeholders untuk memahami domain bisnis.</p>
+
+            <h4>2. Entity Identification</h4>
+            <p>Mengidentifikasi objek-objek utama dalam domain bisnis yang perlu disimpan informasinya.</p>
+
+            <h4>3. Attribute Definition</h4>
+            <p>Menentukan properti atau karakteristik dari setiap entity yang telah diidentifikasi.</p>
+
+            <h4>4. Relationship Mapping</h4>
+            <p>Menentukan hubungan antar entity dan cardinality dari setiap relationship.</p>
+
+            <div class="diagram">
+                <h4>Contoh ERD Sederhana - Sistem Perpustakaan</h4>
+                <p><strong>MAHASISWA</strong> [1:N] ←→ [N:1] <strong>PEMINJAMAN</strong> [1:N] ←→ [N:1] <strong>BUKU</strong></p>
+                <p>Mahasiswa dapat meminjam banyak buku, setiap peminjaman melibatkan satu mahasiswa dan satu buku</p>
+            </div>
+
+            <h3>Tools untuk Conceptual Modeling</h3>
+            <ul>
+                <li><strong>Lucidchart:</strong> Web-based diagramming tool</li>
+                <li><strong>Draw.io (diagrams.net):</strong> Free online diagram software</li>
+                <li><strong>ERDPlus:</strong> Educational tool untuk ERD</li>
+                <li><strong>MySQL Workbench:</strong> Integrated development environment</li>
+                <li><strong>Visual Paradigm:</strong> Professional modeling tool</li>
+            </ul>
+
+            <h3>Best Practices dalam Conceptual Modeling</h3>
+
+            <div class="warning-box">
+                <h4>✅ Do's</h4>
+                <ul>
+                    <li>Gunakan naming convention yang konsisten</li>
+                    <li>Dokumentasikan assumptions dan business rules</li>
+                    <li>Validasi model dengan stakeholders</li>
+                    <li>Pertahankan simplicity dan clarity</li>
+                    <li>Fokus pada kebutuhan bisnis, bukan implementasi teknis</li>
+                </ul>
+
+                <h4>❌ Don'ts</h4>
+                <ul>
+                    <li>Jangan include implementasi details</li>
+                    <li>Hindari redundant entities atau relationships</li>
+                    <li>Jangan membuat model yang terlalu kompleks</li>
+                    <li>Hindari ambiguity dalam naming</li>
+                </ul>
+            </div>
+
+            <h3>Transisi ke Logical Model</h3>
+            <p>Setelah conceptual model selesai, tahap selanjutnya adalah mengkonversi ke logical model yang lebih detail dan specific untuk implementasi database tertentu. Logical model akan menambahkan details seperti data types, constraints, dan normalization.</p>
+        </article>
+
+        <article id="post4" class="post">
+            <h2>Post 4: Apa itu Physical Model</h2>
+
+            <div class="highlight-box">
+                <h3>🔧 Definisi Physical Model</h3>
+                <p>Physical Model adalah representasi database pada level implementasi yang menggambarkan <em>bagaimana</em> data akan disimpan secara fisik dalam sistem database. Model ini sangat spesifik terhadap DBMS dan platform yang digunakan.</p>
+            </div>
+
+            <h3>Karakteristik Physical Model</h3>
+            <ul>
+                <li><strong>DBMS Specific:</strong> Terikat pada sistem database tertentu (MySQL, PostgreSQL, etc.)</li>
+                <li><strong>Implementation Ready:</strong> Dapat langsung dikonversi menjadi DDL statements</li>
+                <li><strong>Performance Oriented:</strong> Mempertimbangkan aspek optimasi dan performa</li>
+                <li><strong>Storage Detailed:</strong> Menspesifikasikan detail penyimpanan fisik</li>
+            </ul>
+
+            <h3>Komponen Physical Model</h3>
+
+            <div class="example-box">
+                <h4>1. Tables dan Columns</h4>
+                <p>Definisi struktur tabel yang akan dibuat dalam database:</p>
+                <ul>
+                    <li><strong>Table Names:</strong> Nama tabel yang akan dibuat</li>
+                    <li><strong>Column Names:</strong> Nama kolom dalam setiap tabel</li>
+                    <li><strong>Data Types:</strong> VARCHAR, INT, DATE, DECIMAL, dll.</li>
+                    <li><strong>Column Size:</strong> Ukuran maximum untuk setiap kolom</li>
+                </ul>
+
+                <h4>2. Constraints</h4>
+                <p>Aturan-aturan yang diberlakukan pada data:</p>
+                <ul>
+                    <li><strong>Primary Key:</strong> Identifikasi unik untuk setiap record</li>
+                    <li><strong>Foreign Key:</strong> Referensi ke primary key tabel lain</li>
+                    <li><strong>NOT NULL:</strong> Kolom yang wajib diisi</li>
+                    <li><strong>UNIQUE:</strong> Nilai yang harus unik</li>
+                    <li><strong>CHECK:</strong> Validasi nilai berdasarkan kondisi</li>
+                </ul>
+
+                <h4>3. Indexes</h4>
+                <p>Struktur data yang meningkatkan kecepatan query:</p>
+                <ul>
+                    <li><strong>Primary Index:</strong> Otomatis dibuat untuk primary key</li>
+                    <li><strong>Secondary Index:</strong> Index tambahan untuk optimasi</li>
+                    <li><strong>Composite Index:</strong> Index yang melibatkan multiple columns</li>
+                    <li><strong>Unique Index:</strong> Index yang memastikan uniqueness</li>
+                </ul>
+            </div>
+
+            <h3>Storage Specifications</h3>
+
+            <h4>1. Tablespaces</h4>
+            <p>Logical storage units yang mengelompokkan related database objects dan mengontrol physical storage.</p>
+
+            <h4>2. File Organization</h4>
+            <p>Cara data disimpan dalam file fisik:</p>
+            <ul>
+                <li><strong>Heap Files:</strong> Records disimpan tanpa urutan tertentu</li>
+                <li><strong>Sorted Files:</strong> Records disimpan dalam urutan tertentu</li>
+                <li><strong>Hash Files:</strong> Records disimpan berdasarkan hash function</li>
+                <li><strong>Clustered Files:</strong> Related records disimpan berdekatan</li>
+            </ul>
+
+            <h4>3. Partitioning</h4>
+            <p>Pembagian tabel besar menjadi bagian-bagian yang lebih kecil:</p>
+            <ul>
+                <li><strong>Horizontal Partitioning:</strong> Pembagian berdasarkan rows</li>
+                <li><strong>Vertical Partitioning:</strong> Pembagian berdasarkan columns</li>
+            </ul>
+
+            <h3>Contoh Implementation Physical Model</h3>
+
+            <div class="example-box">
+                <h4>Contoh DDL Script untuk Tabel Mahasiswa:</h4>
+                <pre style="background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto;">
+CREATE TABLE mahasiswa (
+    nim VARCHAR(15) NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    tanggal_lahir DATE,
+    jenis_kelamin ENUM('L', 'P'),
+    alamat TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (nim),
+    INDEX idx_nama (nama),
+    INDEX idx_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                </pre>
+            </div>
+
+            <h3>Performance Optimization dalam Physical Model</h3>
+
+            <h4>1. Index Strategy</h4>
+            <ul>
+                <li>Buat index pada kolom yang sering digunakan dalam WHERE clause</li>
+                <li>Pertimbangkan composite index untuk query multi-column</li>
+                <li>Hindari over-indexing yang dapat memperlambat INSERT/UPDATE</li>
+            </ul>
+
+            <h4>2. Normalization vs Denormalization</h4>
+            <ul>
+                <li><strong>Normalization:</strong> Mengurangi redundancy, meningkatkan consistency</li>
+                <li><strong>Denormalization:</strong> Meningkatkan read performance, mengorbankan storage</li>
+            </ul>
+
+            <h4>3. Storage Engine Selection</h4>
+            <p>Pemilihan storage engine berdasarkan kebutuhan:</p>
+            <ul>
+                <li><strong>InnoDB:</strong> ACID compliant, supports transactions</li>
+                <li><strong>MyISAM:</strong> Fast reads, tidak support transactions</li>
+                <li><strong>Memory:</strong> Data disimpan di RAM untuk kecepatan maksimal</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>⚡ Considerations untuk Physical Design</h4>
+                <ul>
+                    <li><strong>Query Patterns:</strong> Analisis bagaimana data akan diakses</li>
+                    <li><strong>Data Volume:</strong> Estimasi ukuran data dan growth rate</li>
+                    <li><strong>Concurrency:</strong> Jumlah simultaneous users dan transactions</li>
+                    <li><strong>Backup Strategy:</strong> Requirement untuk backup dan recovery</li>
+                    <li><strong>Security:</strong> Implementasi access control dan encryption</li>
+                </ul>
+            </div>
+
+            <h3>Tools untuk Physical Modeling</h3>
+            <ul>
+                <li><strong>MySQL Workbench:</strong> Complete database design tool</li>
+                <li><strong>PostgreSQL pgAdmin:</strong> Administration platform</li>
+                <li><strong>Oracle SQL Developer:</strong> Integrated development environment</li>
+                <li><strong>SQL Server Management Studio:</strong> Microsoft SQL Server tool</li>
+                <li><strong>DbDesigner:</strong> Online database design tool</li>
+                <li><strong>Navicat:</strong> Multi-platform database administration tool</li>
+            </ul>
+
+            <h3>Migration dari Logical ke Physical Model</h3>
+
+            <div class="diagram">
+                <h4>Proses Transformasi Model</h4>
+                <p><strong>Conceptual Model</strong> → <strong>Logical Model</strong> → <strong>Physical Model</strong> → <strong>Database Implementation</strong></p>
+            </div>
+
+            <h4>Langkah-langkah Transformasi:</h4>
+            <ul>
+                <li><strong>Entity to Table:</strong> Setiap entity menjadi table</li>
+                <li><strong>Attribute to Column:</strong> Setiap attribute menjadi column dengan data type</li>
+                <li><strong>Relationship Implementation:</strong> Foreign keys untuk implement relationships</li>
+                <li><strong>Constraint Definition:</strong> Business rules menjadi database constraints</li>
+                <li><strong>Index Planning:</strong> Identifikasi kolom yang memerlukan indexing</li>
+            </ul>
+
+            <h3>Maintenance dan Monitoring</h3>
+
+            <h4>1. Database Maintenance Tasks</h4>
+            <ul>
+                <li><strong>Index Maintenance:</strong> Rebuild dan reorganize indexes</li>
+                <li><strong>Statistics Update:</strong> Update table statistics untuk optimizer</li>
+                <li><strong>Space Management:</strong> Monitor disk usage dan growth</li>
+                <li><strong>Backup Verification:</strong> Test restore procedures</li>
+            </ul>
+
+            <h4>2. Performance Monitoring</h4>
+            <ul>
+                <li><strong>Query Performance:</strong> Identify slow queries</li>
+                <li><strong>Resource Usage:</strong> CPU, Memory, I/O monitoring</li>
+                <li><strong>Concurrency Issues:</strong> Deadlock detection dan resolution</li>
+                <li><strong>Growth Trends:</strong> Data dan index growth analysis</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>Sample Physical Model Documentation</h4>
+                <p><strong>Table: mahasiswa</strong></p>
+                <ul>
+                    <li>Purpose: Store student information</li>
+                    <li>Estimated Rows: 10,000 (growing 2,000 per year)</li>
+                    <li>Primary Access Pattern: Search by NIM dan nama</li>
+                    <li>Backup Frequency: Daily</li>
+                    <li>Retention Period: 7 years</li>
+                </ul>
+            </div>
+
+            <h3>Best Practices Physical Database Design</h3>
+
+            <div class="warning-box">
+                <h4>✅ Recommendations</h4>
+                <ul>
+                    <li>Pilih data types yang paling efisien untuk setiap kolom</li>
+                    <li>Implement proper indexing strategy</li>
+                    <li>Gunakan meaningful naming conventions</li>
+                    <li>Document semua design decisions</li>
+                    <li>Plan untuk scalability dan growth</li>
+                    <li>Implement proper security measures</li>
+                    <li>Regular performance monitoring dan tuning</li>
+                </ul>
+
+                <h4>❌ Common Mistakes</h4>
+                <ul>
+                    <li>Over-normalization yang menyebabkan complex joins</li>
+                    <li>Under-indexing atau over-indexing</li>
+                    <li>Menggunakan wrong data types (VARCHAR untuk numbers)</li>
+                    <li>Tidak mempertimbangkan future growth</li>
+                    <li>Poor naming conventions</li>
+                    <li>Tidak mengimplementasikan proper constraints</li>
+                </ul>
+            </div>
+
+            <h3>Kesimpulan</h3>
+            <p>Physical Model adalah tahap final dalam database design yang menentukan bagaimana data akan disimpan dan diakses secara fisik. Model ini memerlukan pemahaman mendalam tentang DBMS yang digunakan, performance requirements, dan operational constraints. Desain physical model yang baik akan menghasilkan database yang performant, scalable, dan maintainable.</p>
+        </article>
+
+        <div class="footer">
+            <p>© 2024 Blog Basis Data - Gilang Ramadhan (NIM: 24416255201003)</p>
+            <p>Mata Kuliah Basis Data | <a href="https://www.ubpkarawang.ac.id" target="_blank">Universitas Buana Perjuangan Karawang</a></p>
+            <p><em>"Learning Database Design from Concept to Implementation"</em></p>
+        </div>
+    </div>
+
+    <script>
+        function showPost(postId) {
+            // Hide all posts
+            const posts = document.querySelectorAll('.post');
+            posts.forEach(post => {
+                post.classList.remove('active');
+            });
+
+            // Remove active class from all post previews
+            const previews = document.querySelectorAll('.post-preview');
+            previews.forEach(preview => {
+                preview.classList.remove('active');
+            });
+
+            // Show selected post
+            document.getElementById(postId).classList.add('active');
+
+            // Add active class to corresponding preview
+            const activePreview = document.querySelector(`[onclick="showPost('${postId}')"]`);
+            if (activePreview) {
+                activePreview.classList.add('active');
+            }
+
+            // Smooth scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.3s ease-in';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add click functionality to post previews
+        document.addEventListener('DOMContentLoaded', function() {
+            const boxes = document.querySelectorAll('.highlight-box, .example-box, .warning-box');
+            const postPreviews = document.querySelectorAll('.post-preview');
+            
+            boxes.forEach(box => {
+                box.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                box.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add ripple effect to post previews
+            postPreviews.forEach(preview => {
+                preview.addEventListener('click', function(e) {
+                    const ripple = document.createElement('div');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.3);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        left: ${x}px;
+                        top: ${y}px;
+                        width: ${size}px;
+                        height: ${size}px;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // Add reading progress indicator
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            
+            // Create progress bar if it doesn't exist
+            let progressBar = document.getElementById('reading-progress');
+            if (!progressBar) {
+                progressBar = document.createElement('div');
+                progressBar.id = 'reading-progress';
+                progressBar.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 0%;
+                    height: 3px;
+                    background: linear-gradient(45deg, #3498db, #9b59b6);
+                    z-index: 9999;
+                    transition: width 0.3s ease;
+                `;
+                document.body.appendChild(progressBar);
+            }
+            
+            progressBar.style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
