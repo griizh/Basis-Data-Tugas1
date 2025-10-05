@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Database Model</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 4: Apa itu Physical Model</h2>
+
+            <div class="highlight-box">
+                <h3>Definisi Physical Model</h3>
+                <p>Physical Model adalah representasi database pada level implementasi yang menggambarkan <em>bagaimana</em> data akan disimpan secara fisik dalam sistem database. Model ini sangat spesifik terhadap DBMS dan platform yang digunakan.</p>
+            </div>
+
+            <h3>Karakteristik Physical Model</h3>
+            <ul>
+                <li><strong>DBMS Specific:</strong> Terikat pada sistem database tertentu (MySQL, PostgreSQL, etc.)</li>
+                <li><strong>Implementation Ready:</strong> Dapat langsung dikonversi menjadi DDL statements</li>
+                <li><strong>Performance Oriented:</strong> Mempertimbangkan aspek optimasi dan performa</li>
+                <li><strong>Storage Detailed:</strong> Menspesifikasikan detail penyimpanan fisik</li>
+            </ul>
+
+            <h3>Komponen Physical Model</h3>
+
+            <div class="example-box">
+                <h4>1. Tables dan Columns</h4>
+                <p>Definisi struktur tabel yang akan dibuat dalam database:</p>
+                <ul>
+                    <li><strong>Table Names:</strong> Nama tabel yang akan dibuat</li>
+                    <li><strong>Column Names:</strong> Nama kolom dalam setiap tabel</li>
+                    <li><strong>Data Types:</strong> VARCHAR, INT, DATE, DECIMAL, dll.</li>
+                    <li><strong>Column Size:</strong> Ukuran maximum untuk setiap kolom</li>
+                </ul>
+
+                <h4>2. Constraints</h4>
+                <p>Aturan-aturan yang diberlakukan pada data:</p>
+                <ul>
+                    <li><strong>Primary Key:</strong> Identifikasi unik untuk setiap record</li>
+                    <li><strong>Foreign Key:</strong> Referensi ke primary key tabel lain</li>
+                    <li><strong>NOT NULL:</strong> Kolom yang wajib diisi</li>
+                    <li><strong>UNIQUE:</strong> Nilai yang harus unik</li>
+                    <li><strong>CHECK:</strong> Validasi nilai berdasarkan kondisi</li>
+                </ul>
+
+                <h4>3. Indexes</h4>
+                <p>Struktur data yang meningkatkan kecepatan query:</p>
+                <ul>
+                    <li><strong>Primary Index:</strong> Otomatis dibuat untuk primary key</li>
+                    <li><strong>Secondary Index:</strong> Index tambahan untuk optimasi</li>
+                    <li><strong>Composite Index:</strong> Index yang melibatkan multiple columns</li>
+                    <li><strong>Unique Index:</strong> Index yang memastikan uniqueness</li>
+                </ul>
+            </div>
+
+            <h3>Contoh Implementation Physical Model</h3>
+
+            <div class="example-box">
+                <h4>Contoh DDL Script untuk Tabel Mahasiswa:</h4>
+                <pre>CREATE TABLE mahasiswa (
+    nim VARCHAR(15) NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    tanggal_lahir DATE,
+    jenis_kelamin ENUM('L', 'P'),
+    alamat TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (nim),
+    INDEX idx_nama (nama),
+    INDEX idx_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;</pre>
+            </div>
+
+            <h3>Performance Optimization dalam Physical Model</h3>
+
+            <h4>1. Index Strategy</h4>
+            <ul>
+                <li>Buat index pada kolom yang sering digunakan dalam WHERE clause</li>
+                <li>Pertimbangkan composite index untuk query multi-column</li>
+                <li>Hindari over-indexing yang dapat memperlambat INSERT/UPDATE</li>
+            </ul>
+
+            <h4>2. Normalization vs Denormalization</h4>
+            <ul>
+                <li><strong>Normalization:</strong> Mengurangi redundancy, meningkatkan consistency</li>
+                <li><strong>Denormalization:</strong> Meningkatkan read performance, mengorbankan storage</li>
+            </ul>
+
+            <h4>3. Storage Engine Selection</h4>
+            <p>Pemilihan storage engine berdasarkan kebutuhan:</p>
+            <ul>
+                <li><strong>InnoDB:</strong> ACID compliant, supports transactions</li>
+                <li><strong>MyISAM:</strong> Fast reads, tidak support transactions</li>
+                <li><strong>Memory:</strong> Data disimpan di RAM untuk kecepatan maksimal</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>Considerations untuk Physical Design</h4>
+                <ul>
+                    <li><strong>Query Patterns:</strong> Analisis bagaimana data akan diakses</li>
+                    <li><strong>Data Volume:</strong> Estimasi ukuran data dan growth rate</li>
+                    <li><strong>Concurrency:</strong> Jumlah simultaneous users dan transactions</li>
+                    <li><strong>Backup Strategy:</strong> Requirement untuk backup dan recovery</li>
+                    <li><strong>Security:</strong> Implementasi access control dan encryption</li>
+                </ul>
+            </div>
+
+            <h3>Migration dari Logical ke Physical Model</h3>
+
+            <div class="diagram">
+                <h4>Proses Transformasi Model</h4>
+                <p><strong>Conceptual Model</strong> → <strong>Logical Model</strong> → <strong>Physical Model</strong> → <strong>Database Implementation</strong></p>
+            </div>
+
+            <h3>Kesimpulan</h3>
+            <p>Physical Model adalah tahap final dalam database design yang menentukan bagaimana data akan disimpan dan diakses secara fisik. Model ini memerlukan pemahaman mendalam tentang DBMS yang digunakan, performance requirements, dan operational constraints. Desain physical model yang baik akan menghasilkan database yang performant, scalable, dan maintainable.</p>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>

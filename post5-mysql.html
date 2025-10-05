@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Instalasi MySQL</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .highlight-box, .example-box, .warning-box {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .video-box {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            border: 2px solid rgba(231, 76, 60, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .video-link {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .video-link:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 5: Tutorial Instalasi MySQL (DBMS)</h2>
+
+            <div class="video-box">
+                <h3 style="color: #e74c3c; margin: 0 0 15px 0;">Video Tutorial MySQL</h3>
+                <p style="margin-bottom: 20px;">Berikut adalah video tutorial lengkap instalasi MySQL dari channel YouTube populer:</p>
+                
+                <a href="https://www.youtube.com/watch?v=WuBcTJnIuzo" target="_blank" class="video-link">
+                    Tutorial MySQL - Programming with Mosh
+                </a>
+              
+                
+
+    
+            <h3>Apa itu MySQL?</h3>
+            <p>MySQL adalah salah satu sistem manajemen basis data relasional (RDBMS) yang paling populer dan banyak digunakan di seluruh dunia. MySQL bersifat open-source, artinya gratis untuk digunakan dan memiliki komunitas yang sangat besar.</p>
+
+            <h3>Kenapa Memilih MySQL?</h3>
+            <div class="example-box">
+                <ul>
+                    <li><strong>Open Source:</strong> Gratis dan dapat dimodifikasi sesuai kebutuhan</li>
+                    <li><strong>Performa Tinggi:</strong> Cepat dalam memproses query dan transaksi</li>
+                    <li><strong>Cross-Platform:</strong> Tersedia untuk Windows, Linux, dan macOS</li>
+                    <li><strong>Skalabilitas:</strong> Dapat menangani database dari kecil hingga sangat besar</li>
+                    <li><strong>Komunitas Besar:</strong> Banyak dokumentasi dan support dari komunitas</li>
+                    <li><strong>Kompatibilitas:</strong> Terintegrasi dengan berbagai bahasa pemrograman</li>
+                </ul>
+            </div>
+
+            <h3>Persiapan Sebelum Instalasi</h3>
+            
+            <h4>1. System Requirements</h4>
+            <div class="warning-box">
+                <p><strong>Minimum Requirement:</strong></p>
+                <ul>
+                    <li>Operating System: Windows 10/11, Linux, atau macOS</li>
+                    <li>RAM: Minimal 1GB (Disarankan 4GB atau lebih)</li>
+                    <li>Storage: Minimal 2GB free space</li>
+                    <li>Processor: 1GHz atau lebih cepat</li>
+                </ul>
+            </div>
+
+            <h4>2. Download MySQL</h4>
+            <p>Kunjungi website resmi MySQL: <strong>https://dev.mysql.com/downloads/</strong></p>
+            <p>Pilih versi yang sesuai dengan sistem operasi Anda. Untuk pemula, disarankan menggunakan <strong>MySQL Community Server</strong> yang gratis.</p>
+
+            <h3>Langkah-langkah Instalasi</h3>
+
+            <h4>Step 1: Download MySQL Installer</h4>
+            <div class="example-box">
+                <ul>
+                    <li>Buka browser dan kunjungi situs resmi MySQL</li>
+                    <li>Pilih "MySQL Community Downloads"</li>
+                    <li>Klik "MySQL Installer for Windows" (untuk pengguna Windows)</li>
+                    <li>Pilih versi installer (disarankan: mysql-installer-web-community)</li>
+                    <li>Klik "Download" dan tunggu hingga selesai</li>
+                </ul>
+            </div>
+
+            <h4>Step 2: Jalankan Installer</h4>
+            <ul>
+                <li>Double-click file installer yang sudah didownload</li>
+                <li>Pilih "Setup Type" - Pilih "Developer Default" untuk instalasi lengkap</li>
+                <li>Klik "Next" untuk melanjutkan</li>
+            </ul>
+
+            <h4>Step 3: Check Requirements</h4>
+            <p>Installer akan mengecek dependencies yang diperlukan. Jika ada yang kurang, installer akan mendownload otomatis.</p>
+
+            <h4>Step 4: Installation</h4>
+            <ul>
+                <li>Review produk yang akan diinstall</li>
+                <li>Klik "Execute" untuk memulai instalasi</li>
+                <li>Tunggu hingga semua produk terinstall (MySQL Server, Workbench, dll)</li>
+                <li>Klik "Next" setelah instalasi selesai</li>
+            </ul>
+
+            <h4>Step 5: Configuration</h4>
+            <div class="highlight-box">
+                <p><strong>Configuration Type:</strong></p>
+                <ul>
+                    <li>Pilih "Development Computer" untuk penggunaan lokal</li>
+                    <li>Port: Biarkan default (3306)</li>
+                    <li>Klik "Next"</li>
+                </ul>
+
+                <p><strong>Authentication Method:</strong></p>
+                <ul>
+                    <li>Pilih "Use Strong Password Encryption" (Recommended)</li>
+                    <li>Klik "Next"</li>
+                </ul>
+
+                <p><strong>Accounts and Roles:</strong></p>
+                <ul>
+                    <li>Set password untuk user "root" (Admin)</li>
+                    <li><strong>PENTING:</strong> Catat password ini dengan baik!</li>
+                    <li>Anda bisa menambah user lain jika diperlukan</li>
+                    <li>Klik "Next"</li>
+                </ul>
+            </div>
+
+            <h4>Step 6: Windows Service</h4>
+            <ul>
+                <li>Configure MySQL Server sebagai Windows Service</li>
+                <li>Centang "Start the MySQL Server at System Startup"</li>
+                <li>Klik "Next"</li>
+            </ul>
+
+            <h4>Step 7: Apply Configuration</h4>
+            <ul>
+                <li>Klik "Execute" untuk apply semua konfigurasi</li>
+                <li>Tunggu hingga selesai</li>
+                <li>Klik "Finish"</li>
+            </ul>
+
+            <h3>Verifikasi Instalasi</h3>
+
+            <h4>Menggunakan MySQL Command Line</h4>
+            <div class="example-box">
+                <p><strong>1. Buka Command Prompt atau Terminal</strong></p>
+                <p><strong>2. Ketik perintah:</strong></p>
+                <pre>mysql -u root -p</pre>
+                <p><strong>3. Masukkan password root yang sudah dibuat</strong></p>
+                <p><strong>4. Jika berhasil, akan muncul:</strong></p>
+                <pre>mysql></pre>
+                <p><strong>5. Coba perintah sederhana:</strong></p>
+                <pre>SHOW DATABASES;</pre>
+            </div>
+
+            <h4>Menggunakan MySQL Workbench</h4>
+            <ul>
+                <li>Buka MySQL Workbench dari Start Menu</li>
+                <li>Klik pada connection "Local instance MySQL"</li>
+                <li>Masukkan password root</li>
+                <li>Jika berhasil connect, Anda sudah siap menggunakan MySQL!</li>
+            </ul>
+
+            <h3>Post-Installation: Membuat Database Pertama</h3>
+
+            <div class="example-box">
+                <h4>1. Membuat Database Baru</h4>
+                <pre>CREATE DATABASE mahasiswa_db;
+SHOW DATABASES;
+USE mahasiswa_db;</pre>
+
+                <h4>2. Membuat Tabel Pertama</h4>
+                <pre>CREATE TABLE mahasiswa (
+    nim VARCHAR(15) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    jurusan VARCHAR(50),
+    angkatan INT
+);</pre>
+
+                <h4>3. Insert Data</h4>
+                <pre>INSERT INTO mahasiswa VALUES 
+('24416255201003', 'Gilang Ramadhan', 'Teknik Informatika', 2024);</pre>
+
+                <h4>4. Query Data</h4>
+                <pre>SELECT * FROM mahasiswa;</pre>
+            </div>
+
+            <h3>Troubleshooting Common Issues</h3>
+
+            <div class="warning-box">
+                <h4>Problem: MySQL Service tidak mau start</h4>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Buka Services (Win + R - services.msc)</li>
+                    <li>Cari "MySQL" service</li>
+                    <li>Right-click - Start</li>
+                    <li>Jika gagal, check error log di folder data MySQL</li>
+                </ul>
+
+                <h4>Problem: Lupa password root</h4>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Stop MySQL service</li>
+                    <li>Start MySQL dengan --skip-grant-tables option</li>
+                    <li>Reset password menggunakan command line</li>
+                    <li>Restart MySQL service normal</li>
+                </ul>
+
+                <h4>Problem: Port 3306 sudah digunakan</h4>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Gunakan port lain saat konfigurasi (misal: 3307)</li>
+                    <li>Atau stop aplikasi yang menggunakan port 3306</li>
+                </ul>
+            </div>
+
+            <h3>Tips Penggunaan MySQL</h3>
+            <ul>
+                <li><strong>Backup Rutin:</strong> Selalu backup database secara berkala</li>
+                <li><strong>Strong Password:</strong> Gunakan password yang kuat untuk keamanan</li>
+                <li><strong>User Management:</strong> Buat user terpisah untuk setiap aplikasi</li>
+                <li><strong>Monitor Performance:</strong> Gunakan MySQL Workbench untuk monitoring</li>
+                <li><strong>Update Regular:</strong> Update MySQL ke versi terbaru untuk security patches</li>
+            </ul>
+
+            <h3>Resources Tambahan</h3>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Official Documentation:</strong> https://dev.mysql.com/doc/</li>
+                    <li><strong>MySQL Tutorial:</strong> https://www.mysqltutorial.org/</li>
+                    <li><strong>W3Schools MySQL:</strong> https://www.w3schools.com/mysql/</li>
+                    <li><strong>MySQL Community:</strong> https://forums.mysql.com/</li>
+                </ul>
+            </div>
+
+            <h3>Kesimpulan</h3>
+            <p>Instalasi MySQL adalah langkah pertama yang penting dalam mempelajari database management. Dengan mengikuti tutorial ini dan menonton video panduan di atas, Anda sudah berhasil menginstall dan mengkonfigurasi MySQL di komputer Anda. Selanjutnya, Anda bisa mulai belajar SQL dan membuat database untuk berbagai keperluan proyek.</p>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>

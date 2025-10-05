@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apa itu Basis Data</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 2: Apa itu Basis Data</h2>
+
+            <div class="highlight-box">
+                <h3>Definisi Basis Data</h3>
+                <p>Basis Data (Database) adalah kumpulan data yang terorganisir dan tersimpan secara sistematis dalam sistem komputer, yang dapat diakses, dikelola, dan diperbaharui dengan mudah menggunakan sistem manajemen basis data (DBMS).</p>
+            </div>
+
+            <h3>Karakteristik Utama Basis Data</h3>
+            <ul>
+                <li><strong>Terstruktur:</strong> Data disimpan dalam format yang terorganisir dengan baik</li>
+                <li><strong>Terintegrasi:</strong> Mengurangi redundansi dan inkonsistensi data</li>
+                <li><strong>Dapat Dibagi:</strong> Multiple user dapat mengakses data secara bersamaan</li>
+                <li><strong>Independen:</strong> Data terpisah dari aplikasi yang menggunakannya</li>
+            </ul>
+
+            <h3>Komponen-komponen Basis Data</h3>
+            
+            <div class="example-box">
+                <h4>1. Hardware</h4>
+                <p>Perangkat keras yang digunakan untuk menyimpan dan mengakses data seperti server, storage device, dan network equipment.</p>
+
+                <h4>2. Software</h4>
+                <p>Sistem Manajemen Basis Data (DBMS) seperti MySQL, PostgreSQL, Oracle, SQL Server, dan MongoDB.</p>
+
+                <h4>3. Data</h4>
+                <p>Informasi yang disimpan dalam database, termasuk data operasional dan metadata.</p>
+
+                <h4>4. Users</h4>
+                <p>Pengguna database meliputi database administrator, developer, dan end users.</p>
+
+                <h4>5. Procedures</h4>
+                <p>Aturan dan instruksi untuk menggunakan dan mengelola database.</p>
+            </div>
+
+            <h3>Jenis-jenis Model Basis Data</h3>
+            
+            <h4>1. Relational Database (RDBMS)</h4>
+            <p>Model database yang paling umum digunakan, data disimpan dalam tabel yang saling berelasi. Contoh: MySQL, PostgreSQL, Oracle.</p>
+
+            <h4>2. NoSQL Database</h4>
+            <p>Database non-relational yang cocok untuk big data dan aplikasi real-time. Terbagi menjadi:</p>
+            <ul>
+                <li><strong>Document Database:</strong> MongoDB, CouchDB</li>
+                <li><strong>Key-Value Store:</strong> Redis, DynamoDB</li>
+                <li><strong>Column Family:</strong> Cassandra, HBase</li>
+                <li><strong>Graph Database:</strong> Neo4j, ArangoDB</li>
+            </ul>
+
+            <div class="diagram">
+                <h4>Hierarki Data dalam Database</h4>
+                <p><strong>Database</strong> → <strong>Tables/Collections</strong> → <strong>Records/Documents</strong> → <strong>Fields/Attributes</strong></p>
+            </div>
+
+            <h3>Keuntungan Menggunakan Basis Data</h3>
+            <ul>
+                <li>Mengurangi redundansi data</li>
+                <li>Memastikan konsistensi data</li>
+                <li>Meningkatkan keamanan data</li>
+                <li>Memungkinkan sharing data</li>
+                <li>Standardisasi format data</li>
+                <li>Backup dan recovery yang mudah</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>Tantangan dalam Pengelolaan Database</h4>
+                <ul>
+                    <li>Kompleksitas dalam desain dan maintenance</li>
+                    <li>Biaya implementasi dan lisensi</li>
+                    <li>Kebutuhan expertise khusus</li>
+                    <li>Potensi single point of failure</li>
+                    <li>Performance issues pada data besar</li>
+                </ul>
+            </div>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>

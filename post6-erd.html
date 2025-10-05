@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERD Components</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        h5 { color: #666; margin: 12px 0 8px 0; font-size: 1.05em; font-weight: bold; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 6: Attribute, Entitas, dan Relasi dalam ERD</h2>
+
+            <div class="highlight-box">
+                <h3>Komponen Dasar ERD</h3>
+                <p>Entity Relationship Diagram (ERD) adalah tools fundamental dalam perancangan database yang terdiri dari tiga komponen utama: <strong>Attribute</strong>, <strong>Entitas</strong>, dan <strong>Relasi</strong>. Memahami ketiga komponen ini adalah kunci untuk membuat desain database yang efektif.</p>
+            </div>
+
+            <h3>1. Entitas (Entity)</h3>
+
+            <h4>Definisi Entitas</h4>
+            <p>Entitas adalah objek atau "thing" di dunia nyata yang dapat diidentifikasi secara unik dan memiliki eksistensi independen. Entitas biasanya merepresentasikan orang, tempat, benda, atau konsep yang ingin kita simpan informasinya dalam database.</p>
+
+            <div class="example-box">
+                <h4>Contoh Entitas dalam Sistem Kampus:</h4>
+                <ul>
+                    <li><strong>MAHASISWA</strong> - Orang yang belajar di kampus</li>
+                    <li><strong>DOSEN</strong> - Pengajar di kampus</li>
+                    <li><strong>MATA_KULIAH</strong> - Course yang diajarkan</li>
+                    <li><strong>RUANGAN</strong> - Tempat perkuliahan</li>
+                    <li><strong>JURUSAN</strong> - Program studi</li>
+                </ul>
+            </div>
+
+            <h4>Jenis-jenis Entitas</h4>
+
+            <h5>a. Strong Entity (Entitas Kuat)</h5>
+            <p>Entitas yang dapat berdiri sendiri dan memiliki primary key sendiri tanpa bergantung pada entitas lain.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>MAHASISWA</strong> dengan primary key NIM</li>
+                    <li><strong>DOSEN</strong> dengan primary key NIP</li>
+                    <li><strong>BUKU</strong> dengan primary key ISBN</li>
+                </ul>
+                <p>Digambarkan dengan <strong>persegi panjang</strong> dalam ERD.</p>
+            </div>
+
+            <h5>b. Weak Entity (Entitas Lemah)</h5>
+            <p>Entitas yang tidak dapat berdiri sendiri dan bergantung pada entitas lain untuk identifikasinya. Tidak memiliki primary key sendiri yang unik.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>TANGGUNGAN</strong> (bergantung pada KARYAWAN)</li>
+                    <li><strong>ITEM_PESANAN</strong> (bergantung pada PESANAN)</li>
+                    <li><strong>DETAIL_TRANSAKSI</strong> (bergantung pada TRANSAKSI)</li>
+                </ul>
+                <p>Digambarkan dengan <strong>persegi panjang ganda</strong> dalam ERD.</p>
+            </div>
+
+            <h3>2. Attribute (Atribut)</h3>
+
+            <h4>Definisi Attribute</h4>
+            <p>Attribute adalah properti atau karakteristik yang mendeskripsikan entitas. Setiap attribute memiliki nama dan tipe data tertentu.</p>
+
+            <h4>Jenis-jenis Attribute</h4>
+
+            <h5>a. Simple Attribute (Atomic)</h5>
+            <p>Attribute yang tidak dapat dipecah lagi menjadi bagian yang lebih kecil.</p>
+            <div class="example-box">
+                <p><strong>Contoh pada Entitas MAHASISWA:</strong></p>
+                <ul>
+                    <li><strong>NIM:</strong> "24416255201003"</li>
+                    <li><strong>Jenis_Kelamin:</strong> "L" atau "P"</li>
+                    <li><strong>Angkatan:</strong> 2024</li>
+                    <li><strong>Email:</strong> "student@email.com"</li>
+                </ul>
+            </div>
+
+            <h5>b. Composite Attribute</h5>
+            <p>Attribute yang dapat dipecah menjadi sub-attribute yang lebih kecil dan memiliki makna independen.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>Nama_Lengkap</strong> dapat dipecah menjadi:
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Nama_Depan: "Gilang"</li>
+                            <li>Nama_Belakang: "Ramadhan"</li>
+                        </ul>
+                    </li>
+                    <li><strong>Alamat</strong> dapat dipecah menjadi:
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Jalan: "Jl. Pendidikan No. 25"</li>
+                            <li>Kota: "Karawang"</li>
+                            <li>Provinsi: "Jawa Barat"</li>
+                            <li>Kode_Pos: "41316"</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h5>c. Derived Attribute (Turunan)</h5>
+            <p>Attribute yang nilainya dapat diturunkan atau dihitung dari attribute lain. Biasanya tidak perlu disimpan dalam database.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>Umur</strong> dihitung dari: Tanggal_Lahir</li>
+                    <li><strong>Total_Harga</strong> dihitung dari: Harga × Jumlah</li>
+                    <li><strong>IPK</strong> dihitung dari: nilai-nilai mata kuliah</li>
+                    <li><strong>Lama_Kerja</strong> dihitung dari: Tanggal_Mulai_Kerja</li>
+                </ul>
+                <p>Digambarkan dengan <strong>oval putus-putus</strong> dalam ERD.</p>
+            </div>
+
+            <h5>d. Multi-valued Attribute</h5>
+            <p>Attribute yang dapat memiliki lebih dari satu nilai untuk satu entitas.</p>
+            <div class="example-box">
+                <p><strong>Contoh pada Entitas MAHASISWA:</strong></p>
+                <ul>
+                    <li><strong>Nomor_Telepon:</strong> 
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>"081234567890"</li>
+                            <li>"021-12345678"</li>
+                        </ul>
+                    </li>
+                    <li><strong>Hobi:</strong> "Membaca", "Coding", "Gaming"</li>
+                    <li><strong>Skill:</strong> Java, Python, SQL</li>
+                </ul>
+                <p>Digambarkan dengan <strong>oval ganda</strong> dalam ERD.</p>
+            </div>
+
+            <h5>e. Key Attribute</h5>
+            <p>Attribute khusus yang uniquely identifies setiap instance dari entitas. Dikenal sebagai Primary Key.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>NIM</strong> untuk entitas MAHASISWA</li>
+                    <li><strong>NIP</strong> untuk entitas DOSEN</li>
+                    <li><strong>ISBN</strong> untuk entitas BUKU</li>
+                    <li><strong>ID_Transaksi</strong> untuk entitas TRANSAKSI</li>
+                </ul>
+                <p>Digambarkan dengan <strong>oval dengan garis bawah</strong> dalam ERD.</p>
+            </div>
+
+            <h3>3. Relasi (Relationship)</h3>
+
+            <h4>Definisi Relasi</h4>
+            <p>Relasi adalah asosiasi atau hubungan antara dua atau lebih entitas. Relasi menggambarkan bagaimana entitas-entitas berinteraksi satu sama lain.</p>
+
+            <div class="diagram">
+                <h4>Notasi Dasar Relasi</h4>
+                <p><strong>ENTITAS_A</strong> ——— [ RELASI ] ——— <strong>ENTITAS_B</strong></p>
+                <p>Digambarkan dengan <strong>belah ketupat (diamond)</strong> dalam ERD</p>
+            </div>
+
+            <h4>Cardinality Ratio (Rasio Kardinalitas)</h4>
+
+            <h5>a. One-to-One (1:1)</h5>
+            <p>Satu instance entitas A berhubungan dengan tepat satu instance entitas B, dan sebaliknya.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>MAHASISWA</strong> (1:1) <strong>KARTU_MAHASISWA</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu mahasiswa memiliki satu kartu mahasiswa</li>
+                            <li>Satu kartu mahasiswa dimiliki oleh satu mahasiswa</li>
+                        </ul>
+                    </li>
+                    <li><strong>KEPALA_DESA</strong> (1:1) <strong>DESA</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu desa dipimpin oleh satu kepala desa</li>
+                            <li>Satu kepala desa memimpin satu desa</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="diagram">
+                    <p>MAHASISWA ——1——— MEMILIKI ———1—— KARTU_MAHASISWA</p>
+                </div>
+            </div>
+
+            <h5>b. One-to-Many (1:N)</h5>
+            <p>Satu instance entitas A dapat berhubungan dengan banyak instance entitas B, tetapi satu instance B hanya berhubungan dengan satu instance A.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>DOSEN</strong> (1:N) <strong>MAHASISWA</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu dosen membimbing banyak mahasiswa</li>
+                            <li>Satu mahasiswa dibimbing oleh satu dosen</li>
+                        </ul>
+                    </li>
+                    <li><strong>JURUSAN</strong> (1:N) <strong>MAHASISWA</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu jurusan memiliki banyak mahasiswa</li>
+                            <li>Satu mahasiswa terdaftar di satu jurusan</li>
+                        </ul>
+                    </li>
+                    <li><strong>PELANGGAN</strong> (1:N) <strong>PESANAN</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu pelanggan dapat membuat banyak pesanan</li>
+                            <li>Satu pesanan dibuat oleh satu pelanggan</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="diagram">
+                    <p>DOSEN ——1——— MEMBIMBING ———N—— MAHASISWA</p>
+                </div>
+            </div>
+
+            <h5>c. Many-to-Many (M:N)</h5>
+            <p>Satu instance entitas A dapat berhubungan dengan banyak instance entitas B, dan sebaliknya.</p>
+            <div class="example-box">
+                <p><strong>Contoh:</strong></p>
+                <ul>
+                    <li><strong>MAHASISWA</strong> (M:N) <strong>MATA_KULIAH</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu mahasiswa mengambil banyak mata kuliah</li>
+                            <li>Satu mata kuliah diambil oleh banyak mahasiswa</li>
+                        </ul>
+                    </li>
+                    <li><strong>DOSEN</strong> (M:N) <strong>MATA_KULIAH</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li>Satu dosen mengajar banyak mata kuliah</li>
+                            <li>Satu mata kuliah dapat diajar oleh banyak dosen</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="diagram">
+                    <p>MAHASISWA ——M——— MENGAMBIL ———N—— MATA_KULIAH</p>
+                </div>
+                <div class="warning-box">
+                    <p><strong>PENTING:</strong> Relasi Many-to-Many tidak dapat diimplementasikan langsung dalam database relasional. Harus dipecah menjadi dua relasi One-to-Many menggunakan <strong>Junction Table</strong> (tabel perantara).</p>
+                </div>
+            </div>
+
+            <h3>Transformasi M:N ke Database Implementation</h3>
+
+            <div class="example-box">
+                <h4>Contoh: MAHASISWA (M:N) MATA_KULIAH</h4>
+                
+                <p><strong>Relasi Original (Konseptual):</strong></p>
+                <div class="diagram">
+                    <p>MAHASISWA ———M:N——— MATA_KULIAH</p>
+                </div>
+
+                <p><strong>Transformasi dengan Junction Table:</strong></p>
+                <div class="diagram">
+                    <p>MAHASISWA ———1:N——— <strong>KRS</strong> ———N:1——— MATA_KULIAH</p>
+                </div>
+
+                <p><strong>Struktur Tabel:</strong></p>
+                <pre>-- Tabel MAHASISWA
+CREATE TABLE mahasiswa (
+    nim VARCHAR(15) PRIMARY KEY,
+    nama VARCHAR(100),
+    jurusan VARCHAR(50)
+);
+
+-- Tabel MATA_KULIAH
+CREATE TABLE mata_kuliah (
+    kode_mk VARCHAR(10) PRIMARY KEY,
+    nama_mk VARCHAR(100),
+    sks INT
+);
+
+-- Tabel KRS (Junction Table)
+CREATE TABLE krs (
+    id_krs INT PRIMARY KEY AUTO_INCREMENT,
+    nim VARCHAR(15),
+    kode_mk VARCHAR(10),
+    semester VARCHAR(10),
+    nilai CHAR(1),
+    FOREIGN KEY (nim) REFERENCES mahasiswa(nim),
+    FOREIGN KEY (kode_mk) REFERENCES mata_kuliah(kode_mk)
+);</pre>
+            </div>
+
+            <h3>Best Practices dalam Mendesain ERD</h3>
+
+            <div class="warning-box">
+                <h4>Do's:</h4>
+                <ul>
+                    <li><strong>Gunakan naming yang jelas:</strong> Nama entitas dan attribute harus deskriptif</li>
+                    <li><strong>Hindari redundansi:</strong> Jangan simpan data yang sama di banyak tempat</li>
+                    <li><strong>Identifikasi key dengan benar:</strong> Pastikan primary key benar-benar unique</li>
+                    <li><strong>Dokumentasi relasi:</strong> Jelaskan business rules di balik relasi</li>
+                    <li><strong>Normalisasi:</strong> Ikuti aturan normalisasi untuk menghindari anomali</li>
+                    <li><strong>Konsisten:</strong> Gunakan konvensi penamaan yang konsisten</li>
+                </ul>
+
+                <h4>Don'ts:</h4>
+                <ul>
+                    <li><strong>Jangan gunakan multi-valued attribute:</strong> Pecah menjadi entitas terpisah</li>
+                    <li><strong>Hindari relasi ternary jika bisa:</strong> Pecah menjadi binary relationships</li>
+                    <li><strong>Jangan abaikan weak entities:</strong> Identifikasi dependencies dengan benar</li>
+                    <li><strong>Hindari circular dependencies:</strong> Dapat menyebabkan masalah integritas</li>
+                    <li><strong>Jangan skip validasi:</strong> Pastikan ERD match dengan requirements</li>
+                </ul>
+            </div>
+
+            <h3>Tools untuk Membuat ERD</h3>
+            <ul>
+                <li><strong>Lucidchart:</strong> Web-based, collaborative, user-friendly</li>
+                <li><strong>Draw.io (diagrams.net):</strong> Free, open-source, powerful</li>
+                <li><strong>MySQL Workbench:</strong> Integrated dengan MySQL, auto-generate SQL</li>
+                <li><strong>ERDPlus:</strong> Educational tool, simple interface</li>
+                <li><strong>Visual Paradigm:</strong> Professional, comprehensive features</li>
+                <li><strong>DbDesigner:</strong> Online, collaborative, real-time</li>
+            </ul>
+
+            <h3>Kesimpulan</h3>
+            <p>Memahami Attribute, Entitas, dan Relasi adalah fundamental dalam perancangan database. Ketiga komponen ini membentuk dasar dari Entity Relationship Diagram yang efektif. Dengan menguasai konsep-konsep ini, Anda dapat mendesain database yang terstruktur dengan baik, menghindari redundansi data, dan memastikan integritas referensial. ERD yang baik adalah kunci untuk implementasi database yang sukses dan mudah dimaintain.</p>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>

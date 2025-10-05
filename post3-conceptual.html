@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceptual Database Model</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        strong { color: #2c3e50; }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 3: Apa itu Conceptual Database</h2>
+
+            <div class="highlight-box">
+                <h3>Definisi Conceptual Database</h3>
+                <p>Conceptual Database Model adalah representasi tingkat tinggi dari struktur data yang fokus pada <em>what</em> data yang akan disimpan, bukan <em>how</em> data tersebut akan diimplementasikan. Model ini bersifat platform-independent dan technology-independent.</p>
+            </div>
+
+            <h3>Karakteristik Conceptual Model</h3>
+            <ul>
+                <li><strong>High-Level Abstraction:</strong> Tidak mempertimbangkan detail implementasi teknis</li>
+                <li><strong>Business-Focused:</strong> Berdasarkan kebutuhan bisnis dan domain knowledge</li>
+                <li><strong>Platform Independent:</strong> Tidak terikat pada DBMS atau teknologi tertentu</li>
+                <li><strong>User-Friendly:</strong> Mudah dipahami oleh stakeholders non-teknis</li>
+            </ul>
+
+            <h3>Entity Relationship Diagram (ERD)</h3>
+            <p>ERD adalah tools utama untuk menggambarkan conceptual model. ERD terdiri dari:</p>
+
+            <div class="example-box">
+                <h4>1. Entity</h4>
+                <p>Objek atau konsep yang dapat diidentifikasi secara unik dalam domain bisnis.</p>
+                <ul>
+                    <li><strong>Strong Entity:</strong> Memiliki primary key sendiri</li>
+                    <li><strong>Weak Entity:</strong> Bergantung pada entity lain untuk identifikasi</li>
+                </ul>
+
+                <h4>2. Attributes</h4>
+                <p>Properti atau karakteristik dari entity:</p>
+                <ul>
+                    <li><strong>Simple Attribute:</strong> Tidak dapat dibagi lagi (atomic)</li>
+                    <li><strong>Composite Attribute:</strong> Dapat dibagi menjadi sub-attribute</li>
+                    <li><strong>Derived Attribute:</strong> Diturunkan dari attribute lain</li>
+                    <li><strong>Multi-valued Attribute:</strong> Memiliki multiple values</li>
+                </ul>
+
+                <h4>3. Relationships</h4>
+                <p>Hubungan antara dua atau lebih entity:</p>
+                <ul>
+                    <li><strong>One-to-One (1:1):</strong> Satu entity berhubungan dengan satu entity lain</li>
+                    <li><strong>One-to-Many (1:N):</strong> Satu entity berhubungan dengan banyak entity</li>
+                    <li><strong>Many-to-Many (M:N):</strong> Banyak entity berhubungan dengan banyak entity</li>
+                </ul>
+            </div>
+
+            <h3>Tahapan Pembuatan Conceptual Model</h3>
+            
+            <h4>1. Requirements Analysis</h4>
+            <p>Mengumpulkan dan menganalisis kebutuhan dari stakeholders untuk memahami domain bisnis.</p>
+
+            <h4>2. Entity Identification</h4>
+            <p>Mengidentifikasi objek-objek utama dalam domain bisnis yang perlu disimpan informasinya.</p>
+
+            <h4>3. Attribute Definition</h4>
+            <p>Menentukan properti atau karakteristik dari setiap entity yang telah diidentifikasi.</p>
+
+            <h4>4. Relationship Mapping</h4>
+            <p>Menentukan hubungan antar entity dan cardinality dari setiap relationship.</p>
+
+            <div class="diagram">
+                <h4>Contoh ERD Sederhana - Sistem Perpustakaan</h4>
+                <p><strong>MAHASISWA</strong> [1:N] ← MEMINJAM → [N:1] <strong>BUKU</strong></p>
+                <p style="font-size: 0.9em; margin-top: 15px;">Mahasiswa dapat meminjam banyak buku, setiap peminjaman melibatkan satu mahasiswa dan satu buku</p>
+            </div>
+
+            <h3>Tools untuk Conceptual Modeling</h3>
+            <ul>
+                <li><strong>Lucidchart:</strong> Web-based diagramming tool</li>
+                <li><strong>Draw.io (diagrams.net):</strong> Free online diagram software</li>
+                <li><strong>ERDPlus:</strong> Educational tool untuk ERD</li>
+                <li><strong>MySQL Workbench:</strong> Integrated development environment</li>
+                <li><strong>Visual Paradigm:</strong> Professional modeling tool</li>
+            </ul>
+
+            <h3>Best Practices dalam Conceptual Modeling</h3>
+
+            <div class="warning-box">
+                <h4>Do's</h4>
+                <ul>
+                    <li>Gunakan naming convention yang konsisten</li>
+                    <li>Dokumentasikan assumptions dan business rules</li>
+                    <li>Validasi model dengan stakeholders</li>
+                    <li>Pertahankan simplicity dan clarity</li>
+                    <li>Fokus pada kebutuhan bisnis, bukan implementasi teknis</li>
+                </ul>
+
+                <h4>Don'ts</h4>
+                <ul>
+                    <li>Jangan include implementasi details</li>
+                    <li>Hindari redundant entities atau relationships</li>
+                    <li>Jangan membuat model yang terlalu kompleks</li>
+                    <li>Hindari ambiguity dalam naming</li>
+                </ul>
+            </div>
+
+            <h3>Transisi ke Logical Model</h3>
+            <p>Setelah conceptual model selesai, tahap selanjutnya adalah mengkonversi ke logical model yang lebih detail dan specific untuk implementasi database tertentu. Logical model akan menambahkan details seperti data types, constraints, dan normalization.</p>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>
