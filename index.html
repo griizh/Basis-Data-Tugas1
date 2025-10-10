@@ -20,9 +20,23 @@
             padding: 30px;
             color: white;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 20px;
             height: fit-content;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+        .profile-card::-webkit-scrollbar {
+            width: 8px;
+        }
+        .profile-card::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .profile-card::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.8);
+            border-radius: 10px;
+        }
+        .profile-card::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 1);
         }
         .profile-avatar {
             width: 120px;
@@ -93,6 +107,9 @@
         }
         @media (max-width: 1024px) {
             .main-header { grid-template-columns: 1fr; }
+            .posts-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
             .posts-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -157,6 +174,16 @@
                         <div class="post-icon">🔗</div>
                         <h3>ERD Components</h3>
                         <p>Attribute, Entitas, dan Relasi</p>
+                    </a>
+                    <a href="post7-keys.html" class="post-preview">
+                        <div class="post-icon">🔑</div>
+                        <h3>Primary & Foreign Keys</h3>
+                        <p>Primary Key, Foreign Key, dan Candidate Key</p>
+                    </a>
+                    <a href="post8-relations.html" class="post-preview">
+                        <div class="post-icon">🔄</div>
+                        <h3>Relasi dalam ERD</h3>
+                        <p>Apa itu Relasi dan Mengapa Many-to-Many Tidak Baik</p>
                     </a>
                 </div>
                 <div class="university-link">
