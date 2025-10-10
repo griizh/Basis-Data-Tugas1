@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primary Key, Foreign Key, dan Candidate Key</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        table tr:nth-child(even) { background: #f8f9fa; }
+        table tr:hover { background: #e8f4f8; }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 7: Primary Key, Foreign Key, dan Candidate Key</h2>
+
+            <div class="highlight-box">
+                <h3>🔑 Konsep Key dalam Database</h3>
+                <p>Key adalah elemen fundamental dalam database relasional yang digunakan untuk mengidentifikasi record secara unik dan membangun relasi antar tabel. Memahami jenis-jenis key sangat penting untuk merancang database yang efisien dan terstruktur dengan baik.</p>
+            </div>
+
+            <h3>1. Primary Key (Kunci Utama)</h3>
+
+            <h4>Definisi Primary Key</h4>
+            <p>Primary Key adalah attribute atau kombinasi attribute yang secara unik mengidentifikasi setiap record dalam sebuah tabel. Primary Key tidak boleh memiliki nilai NULL dan harus unique untuk setiap row.</p>
+
+            <div class="example-box">
+                <h4>Karakteristik Primary Key:</h4>
+                <ul>
+                    <li><strong>Uniqueness:</strong> Setiap nilai harus unik, tidak boleh ada duplikasi</li>
+                    <li><strong>Not Null:</strong> Primary Key tidak boleh bernilai NULL</li>
+                    <li><strong>Immutable:</strong> Nilai Primary Key sebaiknya tidak berubah</li>
+                    <li><strong>Single per Table:</strong> Satu tabel hanya boleh memiliki satu Primary Key</li>
+                    <li><strong>Indexing:</strong> Database otomatis membuat index pada Primary Key</li>
+                </ul>
+            </div>
+
+            <h3>5 Contoh Penerapan dalam ERD</h3>
+
+            <h4>Contoh 1: Sistem Perpustakaan</h4>
+            <div class="example-box">
+                <div class="diagram">
+                    <h4>ERD Sistem Perpustakaan</h4>
+                    <p><strong>ANGGOTA</strong> ——1:N—— PEMINJAMAN ——N:1—— <strong>BUKU</strong></p>
+                </div>
+
+                <p><strong>Tabel ANGGOTA</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Anggota (PK)</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>No_Telepon</th>
+                    </tr>
+                    <tr>
+                        <td>A001</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>gilang@email.com</td>
+                        <td>081234567890</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel BUKU</strong></p>
+                <table>
+                    <tr>
+                        <th>ISBN (PK)</th>
+                        <th>Judul</th>
+                        <th>Pengarang</th>
+                        <th>Tahun</th>
+                    </tr>
+                    <tr>
+                        <td>978-0134685991</td>
+                        <td>Database Systems</td>
+                        <td>Elmasri</td>
+                        <td>2015</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel PEMINJAMAN</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Pinjam (PK)</th>
+                        <th>ID_Anggota (FK)</th>
+                        <th>ISBN (FK)</th>
+                        <th>Tgl_Pinjam</th>
+                        <th>Tgl_Kembali</th>
+                    </tr>
+                    <tr>
+                        <td>P001</td>
+                        <td>A001</td>
+                        <td>978-0134685991</td>
+                        <td>2024-10-01</td>
+                        <td>2024-10-08</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE anggota (
+    id_anggota VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    no_telepon VARCHAR(15)
+);
+
+CREATE TABLE buku (
+    isbn VARCHAR(20) PRIMARY KEY,
+    judul VARCHAR(200) NOT NULL,
+    pengarang VARCHAR(100),
+    tahun INT
+);
+
+CREATE TABLE peminjaman (
+    id_pinjam VARCHAR(10) PRIMARY KEY,
+    id_anggota VARCHAR(10),
+    isbn VARCHAR(20),
+    tgl_pinjam DATE,
+    tgl_kembali DATE,
+    FOREIGN KEY (id_anggota) REFERENCES anggota(id_anggota),
+    FOREIGN KEY (isbn) REFERENCES buku(isbn)
+);</pre>
+
+                <p><strong>Penjelasan:</strong></p>
+                <ul>
+                    <li><strong>Primary Keys:</strong> ID_Anggota, ISBN, ID_Pinjam</li>
+                    <li><strong>Foreign Keys:</strong> ID_Anggota dan ISBN di tabel PEMINJAMAN</li>
+                    <li><strong>Candidate Keys:</strong> Email di tabel ANGGOTA (unique)</li>
+                </ul>
+            </div>
+
+            <h4>Contoh 2: Sistem Akademik Kampus</h4>
+            <div class="example-box">
+                <div class="diagram">
+                    <h4>ERD Sistem Akademik</h4>
+                    <p><strong>MAHASISWA</strong> ——1:N—— KRS ——N:1—— <strong>MATA_KULIAH</strong></p>
+                    <p><strong>DOSEN</strong> ——1:N—— <strong>MATA_KULIAH</strong></p>
+                </div>
+
+                <p><strong>Tabel MAHASISWA</strong></p>
+                <table>
+                    <tr>
+                        <th>NIM (PK)</th>
+                        <th>Nama</th>
+                        <th>Jurusan</th>
+                        <th>Angkatan</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Teknik Informatika</td>
+                        <td>2024</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel DOSEN</strong></p>
+                <table>
+                    <tr>
+                        <th>NIP (PK)</th>
+                        <th>Nama</th>
+                        <th>Departemen</th>
+                    </tr>
+                    <tr>
+                        <td>198501012020121001</td>
+                        <td>Dr. Ahmad Fauzi</td>
+                        <td>Informatika</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel MATA_KULIAH</strong></p>
+                <table>
+                    <tr>
+                        <th>Kode_MK (PK)</th>
+                        <th>Nama_MK</th>
+                        <th>SKS</th>
+                        <th>NIP_Dosen (FK)</th>
+                    </tr>
+                    <tr>
+                        <td>TI101</td>
+                        <td>Basis Data</td>
+                        <td>3</td>
+                        <td>198501012020121001</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel KRS</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_KRS (PK)</th>
+                        <th>NIM (FK)</th>
+                        <th>Kode_MK (FK)</th>
+                        <th>Semester</th>
+                        <th>Nilai</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>24416255201003</td>
+                        <td>TI101</td>
+                        <td>Ganjil 2024</td>
+                        <td>A</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE mahasiswa (
+    nim VARCHAR(15) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    jurusan VARCHAR(50),
+    angkatan INT
+);
+
+CREATE TABLE dosen (
+    nip VARCHAR(20) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    departemen VARCHAR(50)
+);
+
+CREATE TABLE mata_kuliah (
+    kode_mk VARCHAR(10) PRIMARY KEY,
+    nama_mk VARCHAR(100) NOT NULL,
+    sks INT,
+    nip_dosen VARCHAR(20),
+    FOREIGN KEY (nip_dosen) REFERENCES dosen(nip)
+);
+
+CREATE TABLE krs (
+    id_krs INT PRIMARY KEY AUTO_INCREMENT,
+    nim VARCHAR(15),
+    kode_mk VARCHAR(10),
+    semester VARCHAR(20),
+    nilai CHAR(2),
+    FOREIGN KEY (nim) REFERENCES mahasiswa(nim),
+    FOREIGN KEY (kode_mk) REFERENCES mata_kuliah(kode_mk)
+);</pre>
+            </div>
+
+            <h4>Contoh 3: Sistem E-Commerce</h4>
+            <div class="example-box">
+                <div class="diagram">
+                    <h4>ERD Sistem E-Commerce</h4>
+                    <p><strong>PELANGGAN</strong> ——1:N—— <strong>PESANAN</strong> ——1:N—— <strong>DETAIL_PESANAN</strong></p>
+                    <p><strong>PRODUK</strong> ——1:N—— <strong>DETAIL_PESANAN</strong></p>
+                </div>
+
+                <p><strong>Tabel PELANGGAN</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Pelanggan (PK)</th>
+                        <th>Nama</th>
+                        <th>Email (CK)</th>
+                        <th>No_HP</th>
+                    </tr>
+                    <tr>
+                        <td>C001</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>gilang@email.com</td>
+                        <td>081234567890</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel PRODUK</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Produk (PK)</th>
+                        <th>Nama_Produk</th>
+                        <th>Harga</th>
+                        <th>Stok</th>
+                    </tr>
+                    <tr>
+                        <td>PRD001</td>
+                        <td>Laptop ASUS</td>
+                        <td>8500000</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel PESANAN</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Pesanan (PK)</th>
+                        <th>ID_Pelanggan (FK)</th>
+                        <th>Tanggal</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>ORD001</td>
+                        <td>C001</td>
+                        <td>2024-10-09</td>
+                        <td>8500000</td>
+                        <td>Diproses</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel DETAIL_PESANAN</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Detail (PK)</th>
+                        <th>ID_Pesanan (FK)</th>
+                        <th>ID_Produk (FK)</th>
+                        <th>Jumlah</th>
+                        <th>Subtotal</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>ORD001</td>
+                        <td>PRD001</td>
+                        <td>1</td>
+                        <td>8500000</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE pelanggan (
+    id_pelanggan VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    no_hp VARCHAR(15)
+);
+
+CREATE TABLE produk (
+    id_produk VARCHAR(10) PRIMARY KEY,
+    nama_produk VARCHAR(200) NOT NULL,
+    harga DECIMAL(12,2),
+    stok INT
+);
+
+CREATE TABLE pesanan (
+    id_pesanan VARCHAR(10) PRIMARY KEY,
+    id_pelanggan VARCHAR(10),
+    tanggal DATE,
+    total DECIMAL(12,2),
+    status VARCHAR(20),
+    FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan)
+);
+
+CREATE TABLE detail_pesanan (
+    id_detail INT PRIMARY KEY AUTO_INCREMENT,
+    id_pesanan VARCHAR(10),
+    id_produk VARCHAR(10),
+    jumlah INT,
+    subtotal DECIMAL(12,2),
+    FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan),
+    FOREIGN KEY (id_produk) REFERENCES produk(id_produk)
+);</pre>
+            </div>
+
+            <h4>Contoh 4: Sistem Rumah Sakit</h4>
+            <div class="example-box">
+                <div class="diagram">
+                    <h4>ERD Sistem Rumah Sakit</h4>
+                    <p><strong>PASIEN</strong> ——1:N—— <strong>REKAM_MEDIS</strong> ——N:1—— <strong>DOKTER</strong></p>
+                </div>
+
+                <p><strong>Tabel PASIEN</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Pasien (PK)</th>
+                        <th>NIK (CK)</th>
+                        <th>Nama</th>
+                        <th>Tgl_Lahir</th>
+                    </tr>
+                    <tr>
+                        <td>P001</td>
+                        <td>3201234567890123</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>2000-01-15</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel DOKTER</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Dokter (PK)</th>
+                        <th>Nama</th>
+                        <th>Spesialisasi</th>
+                        <th>No_Izin (CK)</th>
+                    </tr>
+                    <tr>
+                        <td>D001</td>
+                        <td>Dr. Ahmad</td>
+                        <td>Umum</td>
+                        <td>SIP123456</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel REKAM_MEDIS</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Rekam (PK)</th>
+                        <th>ID_Pasien (FK)</th>
+                        <th>ID_Dokter (FK)</th>
+                        <th>Tanggal</th>
+                        <th>Diagnosa</th>
+                    </tr>
+                    <tr>
+                        <td>RM001</td>
+                        <td>P001</td>
+                        <td>D001</td>
+                        <td>2024-10-09</td>
+                        <td>Demam</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE pasien (
+    id_pasien VARCHAR(10) PRIMARY KEY,
+    nik VARCHAR(16) UNIQUE NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    tgl_lahir DATE
+);
+
+CREATE TABLE dokter (
+    id_dokter VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    spesialisasi VARCHAR(50),
+    no_izin VARCHAR(20) UNIQUE
+);
+
+CREATE TABLE rekam_medis (
+    id_rekam VARCHAR(10) PRIMARY KEY,
+    id_pasien VARCHAR(10),
+    id_dokter VARCHAR(10),
+    tanggal DATE,
+    diagnosa TEXT,
+    FOREIGN KEY (id_pasien) REFERENCES pasien(id_pasien),
+    FOREIGN KEY (id_dokter) REFERENCES dokter(id_dokter)
+);</pre>
+            </div>
+
+            <h4>Contoh 5: Sistem Rental Mobil</h4>
+            <div class="example-box">
+                <div class="diagram">
+                    <h4>ERD Sistem Rental Mobil</h4>
+                    <p><strong>PELANGGAN</strong> ——1:N—— <strong>TRANSAKSI</strong> ——N:1—— <strong>MOBIL</strong></p>
+                </div>
+
+                <p><strong>Tabel PELANGGAN</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Pelanggan (PK)</th>
+                        <th>No_KTP (CK)</th>
+                        <th>Nama</th>
+                        <th>No_SIM (CK)</th>
+                    </tr>
+                    <tr>
+                        <td>PL001</td>
+                        <td>3201234567890123</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>1234567890123456</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel MOBIL</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Mobil (PK)</th>
+                        <th>No_Plat (CK)</th>
+                        <th>Merk</th>
+                        <th>Harga_Sewa</th>
+                    </tr>
+                    <tr>
+                        <td>M001</td>
+                        <td>B1234XYZ</td>
+                        <td>Toyota Avanza</td>
+                        <td>350000</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel TRANSAKSI</strong></p>
+                <table>
+                    <tr>
+                        <th>ID_Transaksi (PK)</th>
+                        <th>ID_Pelanggan (FK)</th>
+                        <th>ID_Mobil (FK)</th>
+                        <th>Tgl_Sewa</th>
+                        <th>Tgl_Kembali</th>
+                        <th>Total</th>
+                    </tr>
+                    <tr>
+                        <td>TR001</td>
+                        <td>PL001</td>
+                        <td>M001</td>
+                        <td>2024-10-09</td>
+                        <td>2024-10-12</td>
+                        <td>1050000</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE pelanggan (
+    id_pelanggan VARCHAR(10) PRIMARY KEY,
+    no_ktp VARCHAR(16) UNIQUE NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    no_sim VARCHAR(16) UNIQUE NOT NULL
+);
+
+CREATE TABLE mobil (
+    id_mobil VARCHAR(10) PRIMARY KEY,
+    no_plat VARCHAR(15) UNIQUE NOT NULL,
+    merk VARCHAR(50),
+    harga_sewa DECIMAL(10,2)
+);
+
+CREATE TABLE transaksi (
+    id_transaksi VARCHAR(10) PRIMARY KEY,
+    id_pelanggan VARCHAR(10),
+    id_mobil VARCHAR(10),
+    tgl_sewa DATE,
+    tgl_kembali DATE,
+    total DECIMAL(12,2),
+    FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan),
+    FOREIGN KEY (id_mobil) REFERENCES mobil(id_mobil)
+);</pre>
+            </div>
+
+            <h3>Perbedaan Primary Key, Foreign Key, dan Candidate Key</h3>
+
+            <div class="diagram">
+                <table style="text-align: left;">
+                    <tr>
+                        <th>Aspek</th>
+                        <th>Primary Key</th>
+                        <th>Foreign Key</th>
+                        <th>Candidate Key</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Jumlah per Tabel</strong></td>
+                        <td>Hanya 1</td>
+                        <td>Bisa banyak</td>
+                        <td>Bisa banyak</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nilai NULL</strong></td>
+                        <td>Tidak boleh</td>
+                        <td>Boleh (optional)</td>
+                        <td>Tidak boleh</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Uniqueness</strong></td>
+                        <td>Harus unique</td>
+                        <td>Tidak harus</td>
+                        <td>Harus unique</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fungsi Utama</strong></td>
+                        <td>Identifikasi record</td>
+                        <td>Membuat relasi</td>
+                        <td>Kandidat PK</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="warning-box">
+                <h4>🎯 Kesimpulan dari 5 Contoh</h4>
+                <ul>
+                    <li><strong>Primary Key:</strong> Selalu ada di setiap tabel untuk identifikasi unik</li>
+                    <li><strong>Foreign Key:</strong> Digunakan untuk membangun relasi antar tabel</li>
+                    <li><strong>Candidate Key:</strong> Attribute yang unique dan bisa menjadi alternatif PK (seperti Email, NIK, No_Plat)</li>
+                    <li><strong>Composite Key:</strong> Kadang diperlukan saat tidak ada single attribute yang unique (seperti di KRS)</li>
+                </ul>
+            </div>
+
+            <h3>Best Practices</h3>
+            <div class="warning-box">
+                <h4>✅ Tips Penting:</h4>
+                <ul>
+                    <li>Pilih Primary Key yang stabil dan tidak berubah</li>
+                    <li>Gunakan Foreign Key untuk menjaga integritas referensial</li>
+                    <li>Identifikasi Candidate Key untuk membuat UNIQUE constraint</li>
+                    <li>Buat index pada Foreign Key untuk meningkatkan performa JOIN</li>
+                    <li>Dokumentasikan relasi dengan jelas dalam ERD</li>
+                </ul>
+            </div>
+
+            <h3>Kesimpulan</h3>
+            <p>Primary Key, Foreign Key, dan Candidate Key adalah komponen esensial dalam desain database. Melalui 5 contoh di atas, kita dapat melihat bagaimana ketiga konsep ini diterapkan dalam berbagai sistem: perpustakaan, akademik, e-commerce, rumah sakit, dan rental mobil. Pemahaman yang baik tentang konsep-konsep ini akan membantu Anda merancang database yang efisien, terstruktur, dan mudah dimaintain.</p>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>
