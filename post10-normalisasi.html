@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normalisasi pada ERD</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        table tr:nth-child(even) { background: #f8f9fa; }
+        table tr:hover { background: #e8f4f8; }
+        .video-box {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            border: 2px solid rgba(231, 76, 60, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .video-link {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .video-link:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .danger-box {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            border: 2px solid rgba(231, 76, 60, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 10: Apa itu Normalisasi pada ERD</h2>
+
+            <div class="highlight-box">
+                <h3>Apa itu Normalisasi pada ERD?</h3>
+                <p>Normalisasi adalah proses mengorganisir data dalam database untuk mengurangi redundansi (duplikasi data) dan meningkatkan integritas data. Dalam konteks ERD (Entity Relationship Diagram), normalisasi membantu kita merancang struktur database yang efisien dengan memecah tabel-tabel besar menjadi tabel-tabel yang lebih kecil dan terstruktur dengan baik.</p>
+            </div>
+
+            <h3>Tujuan Normalisasi</h3>
+            <ul>
+                <li><strong>Menghilangkan redundansi data</strong> - Mengurangi duplikasi data yang tidak perlu</li>
+                <li><strong>Mencegah anomali data</strong> - Anomali insert, update, dan delete</li>
+                <li><strong>Meningkatkan integritas data</strong> - Data menjadi lebih konsisten</li>
+                <li><strong>Mengoptimalkan storage</strong> - Menghemat ruang penyimpanan</li>
+                <li><strong>Mempermudah maintenance</strong> - Database lebih mudah dikelola</li>
+                <li><strong>Meningkatkan performa query</strong> - Query menjadi lebih efisien</li>
+            </ul>
+
+            <h3>Anomali Data yang Terjadi Tanpa Normalisasi</h3>
+
+            <div class="danger-box">
+                <h4>1. Insert Anomaly (Anomali Penyisipan)</h4>
+                <p>Tidak dapat menambahkan data baru tanpa informasi lengkap dari entitas lain.</p>
+                <p><strong>Contoh:</strong> Tidak bisa menambah data mata kuliah baru jika belum ada mahasiswa yang mengambilnya.</p>
+
+                <h4>2. Update Anomaly (Anomali Pembaruan)</h4>
+                <p>Harus mengubah data di banyak tempat ketika ada perubahan, jika tidak konsisten akan terjadi inkonsistensi data.</p>
+                <p><strong>Contoh:</strong> Jika nama jurusan berubah, harus update di semua record mahasiswa yang ada di jurusan tersebut.</p>
+
+                <h4>3. Delete Anomaly (Anomali Penghapusan)</h4>
+                <p>Menghapus data dapat menghilangkan informasi penting lainnya.</p>
+                <p><strong>Contoh:</strong> Menghapus mahasiswa terakhir dari suatu mata kuliah dapat menghilangkan informasi tentang mata kuliah tersebut.</p>
+            </div>
+
+            <h3>Bentuk Normal (Normal Forms)</h3>
+
+            <h3>1. First Normal Form (1NF) - Bentuk Normal Pertama</h3>
+
+            <h4>Aturan 1NF:</h4>
+            <ul>
+                <li>Setiap kolom hanya berisi nilai atomic (tidak dapat dibagi lagi)</li>
+                <li>Tidak boleh ada repeated groups (kelompok data yang berulang)</li>
+                <li>Setiap kolom harus memiliki nama yang unik</li>
+                <li>Urutan data tidak penting</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>❌ Contoh Tabel yang TIDAK memenuhi 1NF</h4>
+                <table>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Mata_Kuliah</th>
+                        <th>Nilai</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Basis Data, Web Programming</td>
+                        <td>A, B</td>
+                    </tr>
+                </table>
+
+                <p><strong>Masalah:</strong> Kolom Mata_Kuliah dan Nilai berisi multiple values (tidak atomic)</p>
+
+                <h4>✅ Tabel yang MEMENUHI 1NF</h4>
+                <table>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Mata_Kuliah</th>
+                        <th>Nilai</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Basis Data</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Web Programming</td>
+                        <td>B</td>
+                    </tr>
+                </table>
+
+                <p><strong>Solusi:</strong> Setiap baris sekarang memiliki satu nilai per kolom (atomic)</p>
+            </div>
+
+            <h3>2. Second Normal Form (2NF) - Bentuk Normal Kedua</h3>
+
+            <h4>Aturan 2NF:</h4>
+            <ul>
+                <li>Harus sudah memenuhi 1NF</li>
+                <li>Semua atribut non-key harus bergantung penuh pada primary key (tidak boleh partial dependency)</li>
+                <li>Berlaku untuk tabel dengan composite primary key</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>❌ Contoh Tabel yang TIDAK memenuhi 2NF</h4>
+                <table>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Kode_MK</th>
+                        <th>Nama_Mahasiswa</th>
+                        <th>Nama_MK</th>
+                        <th>Nilai</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>TI101</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Basis Data</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>TI102</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Web Programming</td>
+                        <td>B</td>
+                    </tr>
+                </table>
+
+                <p><strong>Masalah:</strong></p>
+                <ul>
+                    <li>Primary Key: (NIM, Kode_MK)</li>
+                    <li>Nama_Mahasiswa hanya bergantung pada NIM (partial dependency)</li>
+                    <li>Nama_MK hanya bergantung pada Kode_MK (partial dependency)</li>
+                </ul>
+
+                <h4>✅ Tabel yang MEMENUHI 2NF - Dipecah menjadi 3 tabel</h4>
+
+                <p><strong>Tabel MAHASISWA</strong></p>
+                <table>
+                    <tr>
+                        <th>NIM (PK)</th>
+                        <th>Nama_Mahasiswa</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang Ramadhan</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel MATA_KULIAH</strong></p>
+                <table>
+                    <tr>
+                        <th>Kode_MK (PK)</th>
+                        <th>Nama_MK</th>
+                    </tr>
+                    <tr>
+                        <td>TI101</td>
+                        <td>Basis Data</td>
+                    </tr>
+                    <tr>
+                        <td>TI102</td>
+                        <td>Web Programming</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel KRS</strong></p>
+                <table>
+                    <tr>
+                        <th>NIM (FK)</th>
+                        <th>Kode_MK (FK)</th>
+                        <th>Nilai</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>TI101</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>TI102</td>
+                        <td>B</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE mahasiswa (
+    nim VARCHAR(15) PRIMARY KEY,
+    nama_mahasiswa VARCHAR(100)
+);
+
+CREATE TABLE mata_kuliah (
+    kode_mk VARCHAR(10) PRIMARY KEY,
+    nama_mk VARCHAR(100)
+);
+
+CREATE TABLE krs (
+    nim VARCHAR(15),
+    kode_mk VARCHAR(10),
+    nilai CHAR(2),
+    PRIMARY KEY (nim, kode_mk),
+    FOREIGN KEY (nim) REFERENCES mahasiswa(nim),
+    FOREIGN KEY (kode_mk) REFERENCES mata_kuliah(kode_mk)
+);</pre>
+            </div>
+
+            <h3>3. Third Normal Form (3NF) - Bentuk Normal Ketiga</h3>
+
+            <h4>Aturan 3NF:</h4>
+            <ul>
+                <li>Harus sudah memenuhi 2NF</li>
+                <li>Tidak boleh ada transitive dependency (atribut non-key bergantung pada atribut non-key lain)</li>
+                <li>Semua atribut non-key harus bergantung langsung pada primary key</li>
+            </ul>
+
+            <div class="example-box">
+                <h4>❌ Contoh Tabel yang TIDAK memenuhi 3NF</h4>
+                <table>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Kode_Jurusan</th>
+                        <th>Nama_Jurusan</th>
+                        <th>Gedung</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang</td>
+                        <td>TI</td>
+                        <td>Teknik Informatika</td>
+                        <td>Gedung A</td>
+                    </tr>
+                    <tr>
+                        <td>24416255201004</td>
+                        <td>Budi</td>
+                        <td>TI</td>
+                        <td>Teknik Informatika</td>
+                        <td>Gedung A</td>
+                    </tr>
+                </table>
+
+                <p><strong>Masalah:</strong></p>
+                <ul>
+                    <li>Primary Key: NIM</li>
+                    <li>Nama_Jurusan bergantung pada Kode_Jurusan (bukan NIM)</li>
+                    <li>Gedung bergantung pada Kode_Jurusan (bukan NIM)</li>
+                    <li>Ini adalah transitive dependency: NIM → Kode_Jurusan → Nama_Jurusan</li>
+                </ul>
+
+                <h4>✅ Tabel yang MEMENUHI 3NF - Dipecah menjadi 2 tabel</h4>
+
+                <p><strong>Tabel JURUSAN</strong></p>
+                <table>
+                    <tr>
+                        <th>Kode_Jurusan (PK)</th>
+                        <th>Nama_Jurusan</th>
+                        <th>Gedung</th>
+                    </tr>
+                    <tr>
+                        <td>TI</td>
+                        <td>Teknik Informatika</td>
+                        <td>Gedung A</td>
+                    </tr>
+                </table>
+
+                <p><strong>Tabel MAHASISWA</strong></p>
+                <table>
+                    <tr>
+                        <th>NIM (PK)</th>
+                        <th>Nama</th>
+                        <th>Kode_Jurusan (FK)</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang</td>
+                        <td>TI</td>
+                    </tr>
+                    <tr>
+                        <td>24416255201004</td>
+                        <td>Budi</td>
+                        <td>TI</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE jurusan (
+    kode_jurusan VARCHAR(5) PRIMARY KEY,
+    nama_jurusan VARCHAR(100),
+    gedung VARCHAR(50)
+);
+
+CREATE TABLE mahasiswa (
+    nim VARCHAR(15) PRIMARY KEY,
+    nama VARCHAR(100),
+    kode_jurusan VARCHAR(5),
+    FOREIGN KEY (kode_jurusan) REFERENCES jurusan(kode_jurusan)
+);</pre>
+
+                <p><strong>Keuntungan:</strong></p>
+                <ul>
+                    <li>✅ Tidak ada redundansi data Nama_Jurusan dan Gedung</li>
+                    <li>✅ Update nama jurusan hanya di satu tempat</li>
+                    <li>✅ Bisa menambah jurusan baru tanpa harus ada mahasiswa</li>
+                </ul>
+            </div>
+
+            <h3>Perbandingan: Sebelum vs Sesudah Normalisasi</h3>
+
+            <div class="warning-box">
+                <h4>Studi Kasus: Sistem Akademik Kampus</h4>
+
+                <h4>❌ SEBELUM Normalisasi (Tidak Normal)</h4>
+                <table>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                        <th>Jurusan</th>
+                        <th>Gedung</th>
+                        <th>MK1</th>
+                        <th>Nilai1</th>
+                        <th>MK2</th>
+                        <th>Nilai2</th>
+                    </tr>
+                    <tr>
+                        <td>001</td>
+                        <td>Gilang</td>
+                        <td>TI</td>
+                        <td>A</td>
+                        <td>Basis Data</td>
+                        <td>A</td>
+                        <td>Web</td>
+                        <td>B</td>
+                    </tr>
+                </table>
+
+                <p><strong>Masalah:</strong></p>
+                <ul>
+                    <li>Repeated groups (MK1, MK2, dst)</li>
+                    <li>Redundansi data Jurusan dan Gedung</li>
+                    <li>Sulit menambah mata kuliah baru</li>
+                    <li>Waste storage space</li>
+                </ul>
+
+                <h4>✅ SESUDAH Normalisasi (3NF)</h4>
+
+                <div class="diagram">
+                    <p><strong>JURUSAN</strong> ← 1:N → <strong>MAHASISWA</strong> ← 1:N → <strong>KRS</strong> ← N:1 → <strong>MATA_KULIAH</strong></p>
+                </div>
+
+                <p><strong>4 Tabel Terpisah:</strong></p>
+                <ul>
+                    <li>JURUSAN (kode_jurusan, nama_jurusan, gedung)</li>
+                    <li>MAHASISWA (nim, nama, kode_jurusan)</li>
+                    <li>MATA_KULIAH (kode_mk, nama_mk, sks)</li>
+                    <li>KRS (nim, kode_mk, semester, nilai)</li>
+                </ul>
+
+                <p><strong>Keuntungan:</strong></p>
+                <ul>
+                    <li>✅ Tidak ada redundansi data</li>
+                    <li>✅ Mudah maintenance</li>
+                    <li>✅ Fleksibel menambah data baru</li>
+                    <li>✅ Integritas data terjaga</li>
+                </ul>
+            </div>
+
+            <h3>Kapan Menggunakan Denormalisasi?</h3>
+
+            <div class="warning-box">
+                <p>Meskipun normalisasi penting, kadang kita perlu melakukan <strong>denormalisasi</strong> (sengaja menambah redundansi) untuk:</p>
+                <ul>
+                    <li><strong>Meningkatkan performa read:</strong> Mengurangi JOIN yang kompleks</li>
+                    <li><strong>Data warehouse:</strong> Untuk reporting dan analytics</li>
+                    <li><strong>Caching:</strong> Menyimpan data yang sering diakses</li>
+                    <li><strong>Read-heavy application:</strong> Aplikasi dengan banyak query SELECT</li>
+                </ul>
+
+                <p><strong>Pertimbangan:</strong> Denormalisasi meningkatkan kompleksitas maintenance dan risiko inkonsistensi data.</p>
+            </div>
+
+            <h3>Langkah-langkah Normalisasi pada ERD</h3>
+
+            <div class="example-box">
+                <h4>Step-by-Step Normalisasi:</h4>
+                <ol>
+                    <li><strong>Identifikasi entitas:</strong> Tentukan objek-objek utama dalam sistem</li>
+                    <li><strong>Terapkan 1NF:</strong> Pastikan semua attribute atomic dan tidak ada repeated groups</li>
+                    <li><strong>Terapkan 2NF:</strong> Hilangkan partial dependency dengan memecah tabel</li>
+                    <li><strong>Terapkan 3NF:</strong> Hilangkan transitive dependency</li>
+                    <li><strong>Buat ERD:</strong> Gambarkan relasi antar entitas yang sudah dinormalisasi</li>
+                    <li><strong>Validasi:</strong> Pastikan tidak ada anomali data</li>
+                    <li><strong>Implementasi:</strong> Buat DDL SQL dari ERD yang sudah dinormalisasi</li>
+                </ol>
+            </div>
+
+            <h3>Best Practices Normalisasi</h3>
+
+            <div class="warning-box">
+                <h4>✅ Do's:</h4>
+                <ul>
+                    <li>Selalu mulai dengan 1NF sebelum ke normal form selanjutnya</li>
+                    <li>Dokumentasikan alasan setiap keputusan normalisasi</li>
+                    <li>Gunakan naming convention yang konsisten</li>
+                    <li>Buat foreign key constraints untuk integritas referensial</li>
+                    <li>Test dengan data sample untuk memastikan tidak ada anomali</li>
+                </ul>
+
+                <h4>❌ Don'ts:</h4>
+                <ul>
+                    <li>Jangan over-normalize hingga performa menurun drastis</li>
+                    <li>Jangan lupakan business requirements</li>
+                    <li>Jangan normalisasi tanpa memahami query patterns</li>
+                    <li>Jangan abaikan performa untuk mencapai 3NF</li>
+                </ul>
+            </div>
+
+            <h3>Kesimpulan</h3>
+
+            <div class="highlight-box">
+                <p>Normalisasi adalah teknik fundamental dalam desain database yang membantu menciptakan struktur data yang efisien, konsisten, dan mudah dimaintain. Dengan memahami 1NF, 2NF, dan 3NF, Anda dapat merancang ERD yang baik dan menghindarkan database dari anomali data. Normalisasi adalah keseimbangan antara efisiensi storage, integritas data, dan performa query. Tonton video tutorial di atas untuk pemahaman yang lebih mendalam tentang normalisasi database!</p>
+            </div>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>

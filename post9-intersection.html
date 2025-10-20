@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersection Table - 5 Kasus Praktis</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .post {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #34495e;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            padding: 10px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border-left: 4px solid #3498db;
+            border-radius: 5px;
+        }
+        h4 { color: #555; margin: 15px 0 10px 0; font-size: 1.2em; }
+        p, li { color: #555; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }
+        ul { margin: 15px 0; padding-left: 30px; }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        table tr:nth-child(even) { background: #f8f9fa; }
+        table tr:hover { background: #e8f4f8; }
+        .video-box {
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.1));
+            border: 2px solid rgba(231, 76, 60, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .video-link {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 12px 30px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .video-link:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+        .highlight-box, .example-box, .warning-box, .diagram {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        .example-box {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.1));
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        .warning-box {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(211, 84, 0, 0.1));
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+        .diagram {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+            border: 2px dashed #3498db;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover { background: #2980b9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <article class="post">
+            <h2>Post 9: Intersection Table - Many-to-Many Relationship 5 Contoh kasus</h2>
+
+            <div class="video-box">
+                <h3 style="color: #e74c3c; margin: 0 0 15px 0;">Video ERD Intersection saya</h3>
+                <p style="margin-bottom: 20px;">Tonton video saya tentang ERD 5 contoh kasus intersection:</p>
+                
+                <a href="https://youtu.be/lM5SfmP9S70?si=Ovb9MOzSaZgTIilu" target="_blank" class="video-link">
+                   video saya
+                </a>
+         
+            </div>
+
+            <div class="highlight-box">
+                <h3>Apa itu Intersection Table?</h3>
+                <p>Intersection Table (atau Junction Table) adalah tabel perantara yang digunakan untuk mengimplementasikan relasi many-to-many dalam database relasional. Tabel ini menghubungkan dua tabel utama dengan menyimpan foreign key dari kedua tabel tersebut, sehingga memecah relasi many-to-many menjadi dua relasi one-to-many.</p>
+            </div>
+
+            <h3>Struktur Dasar Intersection Table</h3>
+
+            <div class="diagram">
+                <p><strong>Tabel A</strong> (1:N) ← | → (N:1) <strong>Intersection Table</strong> (1:N) ← | → (N:1) <strong>Tabel B</strong></p>
+            </div>
+
+            <h3>Kasus 1: Sistem KRS (Kartu Rencana Studi)</h3>
+
+            <div class="example-box">
+                <h4>Skenario</h4>
+                <p>Mahasiswa mengambil banyak Mata Kuliah, Mata Kuliah diambil banyak Mahasiswa. Relasi Many-to-Many ini diimplementasikan dengan tabel KRS sebagai intersection table.</p>
+
+                <div class="diagram">
+                    <p><strong>MAHASISWA</strong> ← 1:N → <strong>KRS</strong> ← N:1 → <strong>MATA_KULIAH</strong></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th colspan="3">MAHASISWA</th>
+                    </tr>
+                    <tr>
+                        <th>NIM (PK)</th>
+                        <th>Nama</th>
+                        <th>Jurusan</th>
+                    </tr>
+                    <tr>
+                        <td>24416255201003</td>
+                        <td>Gilang Ramadhan</td>
+                        <td>Teknik Informatika</td>
+                    </tr>
+                    <tr>
+                        <td>24416255201004</td>
+                        <td>Budi Santoso</td>
+                        <td>Teknik Informatika</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="3">MATA_KULIAH</th>
+                    </tr>
+                    <tr>
+                        <th>Kode_MK (PK)</th>
+                        <th>Nama_MK</th>
+                        <th>SKS</th>
+                    </tr>
+                    <tr>
+                        <td>TI101</td>
+                        <td>Basis Data</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>TI102</td>
+                        <td>Web Programming</td>
+                        <td>3</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="5">KRS (Intersection Table)</th>
+                    </tr>
+                    <tr>
+                        <th>ID_KRS (PK)</th>
+                        <th>NIM (FK)</th>
+                        <th>Kode_MK (FK)</th>
+                        <th>Semester</th>
+                        <th>Nilai</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>24416255201003</td>
+                        <td>TI101</td>
+                        <td>Ganjil 2024</td>
+                        <td>A</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE mahasiswa (
+    nim VARCHAR(15) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    jurusan VARCHAR(50)
+);
+
+CREATE TABLE mata_kuliah (
+    kode_mk VARCHAR(10) PRIMARY KEY,
+    nama_mk VARCHAR(100) NOT NULL,
+    sks INT
+);
+
+CREATE TABLE krs (
+    id_krs INT PRIMARY KEY AUTO_INCREMENT,
+    nim VARCHAR(15) NOT NULL,
+    kode_mk VARCHAR(10) NOT NULL,
+    semester VARCHAR(20),
+    nilai CHAR(2),
+    FOREIGN KEY (nim) REFERENCES mahasiswa(nim) ON DELETE CASCADE,
+    FOREIGN KEY (kode_mk) REFERENCES mata_kuliah(kode_mk) ON DELETE CASCADE,
+    UNIQUE KEY unique_enrollment (nim, kode_mk)
+);</pre>
+            </div>
+
+            <h3>Kasus 2: Sistem Penulis dan Buku</h3>
+
+            <div class="example-box">
+                <h4>Skenario</h4>
+                <p>Buku ditulis oleh banyak pengarang, Pengarang menulis banyak buku. Intersection table PENULISAN menyimpan informasi siapa menulis buku mana.</p>
+
+                <div class="diagram">
+                    <p><strong>PENGARANG</strong> ← 1:N → <strong>PENULISAN</strong> ← N:1 → <strong>BUKU</strong></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th colspan="3">PENGARANG</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Pengarang (PK)</th>
+                        <th>Nama</th>
+                        <th>Negara</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Eka Kurniawan</td>
+                        <td>Indonesia</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="3">BUKU</th>
+                    </tr>
+                    <tr>
+                        <th>ISBN (PK)</th>
+                        <th>Judul</th>
+                        <th>Tahun</th>
+                    </tr>
+                    <tr>
+                        <td>978-6020470814</td>
+                        <td>Laskar Pelangi</td>
+                        <td>2005</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="3">PENULISAN (Intersection Table)</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Penulisan (PK)</th>
+                        <th>ID_Pengarang (FK)</th>
+                        <th>ISBN (FK)</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>978-6020470814</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE pengarang (
+    id_pengarang INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(100) NOT NULL,
+    negara VARCHAR(50)
+);
+
+CREATE TABLE buku (
+    isbn VARCHAR(20) PRIMARY KEY,
+    judul VARCHAR(200) NOT NULL,
+    tahun INT
+);
+
+CREATE TABLE penulisan (
+    id_penulisan INT PRIMARY KEY AUTO_INCREMENT,
+    id_pengarang INT NOT NULL,
+    isbn VARCHAR(20) NOT NULL,
+    FOREIGN KEY (id_pengarang) REFERENCES pengarang(id_pengarang),
+    FOREIGN KEY (isbn) REFERENCES buku(isbn),
+    UNIQUE KEY unique_penulisan (id_pengarang, isbn)
+);</pre>
+            </div>
+
+            <h3>Kasus 3: Sistem Peserta dan Event</h3>
+
+            <div class="example-box">
+                <h4>Skenario</h4>
+                <p>Event dihadiri banyak peserta, Peserta menghadiri banyak event. Intersection table REGISTRASI mencatat peserta mana mengikuti event apa.</p>
+
+                <div class="diagram">
+                    <p><strong>PESERTA</strong> ← 1:N → <strong>REGISTRASI</strong> ← N:1 → <strong>EVENT</strong></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th colspan="2">PESERTA</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Peserta (PK)</th>
+                        <th>Nama</th>
+                    </tr>
+                    <tr>
+                        <td>P001</td>
+                        <td>Gilang Ramadhan</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="2">EVENT</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Event (PK)</th>
+                        <th>Nama_Event</th>
+                    </tr>
+                    <tr>
+                        <td>E001</td>
+                        <td>Workshop Database 2024</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="5">REGISTRASI (Intersection Table)</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Registrasi (PK)</th>
+                        <th>ID_Peserta (FK)</th>
+                        <th>ID_Event (FK)</th>
+                        <th>Tanggal_Daftar</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>P001</td>
+                        <td>E001</td>
+                        <td>2024-10-09</td>
+                        <td>Terverifikasi</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE peserta (
+    id_peserta VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE event (
+    id_event VARCHAR(10) PRIMARY KEY,
+    nama_event VARCHAR(200) NOT NULL,
+    tanggal_mulai DATE,
+    tanggal_selesai DATE
+);
+
+CREATE TABLE registrasi (
+    id_registrasi INT PRIMARY KEY AUTO_INCREMENT,
+    id_peserta VARCHAR(10) NOT NULL,
+    id_event VARCHAR(10) NOT NULL,
+    tanggal_daftar DATE,
+    status VARCHAR(20),
+    FOREIGN KEY (id_peserta) REFERENCES peserta(id_peserta),
+    FOREIGN KEY (id_event) REFERENCES event(id_event),
+    UNIQUE KEY unique_registrasi (id_peserta, id_event)
+);</pre>
+            </div>
+
+            <h3>Kasus 4: Sistem Dokter dan Pasien</h3>
+
+            <div class="example-box">
+                <h4>Skenario</h4>
+                <p>Dokter memeriksa banyak pasien, Pasien diperiksa oleh banyak dokter. Intersection table PEMERIKSAAN mencatat kapan dokter memeriksa pasien dan hasilnya.</p>
+
+                <div class="diagram">
+                    <p><strong>DOKTER</strong> ← 1:N → <strong>PEMERIKSAAN</strong> ← N:1 → <strong>PASIEN</strong></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th colspan="3">DOKTER</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Dokter (PK)</th>
+                        <th>Nama</th>
+                        <th>Spesialisasi</th>
+                    </tr>
+                    <tr>
+                        <td>D001</td>
+                        <td>Dr. Ahmad</td>
+                        <td>Umum</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="2">PASIEN</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Pasien (PK)</th>
+                        <th>Nama</th>
+                    </tr>
+                    <tr>
+                        <td>PA001</td>
+                        <td>Budi Santoso</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="5">PEMERIKSAAN (Intersection Table)</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Pemeriksaan (PK)</th>
+                        <th>ID_Dokter (FK)</th>
+                        <th>ID_Pasien (FK)</th>
+                        <th>Tanggal</th>
+                        <th>Diagnosa</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>D001</td>
+                        <td>PA001</td>
+                        <td>2024-10-09</td>
+                        <td>Demam Tinggi</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE dokter (
+    id_dokter VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    spesialisasi VARCHAR(50)
+);
+
+CREATE TABLE pasien (
+    id_pasien VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    no_rm VARCHAR(20)
+);
+
+CREATE TABLE pemeriksaan (
+    id_pemeriksaan INT PRIMARY KEY AUTO_INCREMENT,
+    id_dokter VARCHAR(10) NOT NULL,
+    id_pasien VARCHAR(10) NOT NULL,
+    tanggal DATE,
+    diagnosa TEXT,
+    biaya DECIMAL(10,2),
+    FOREIGN KEY (id_dokter) REFERENCES dokter(id_dokter),
+    FOREIGN KEY (id_pasien) REFERENCES pasien(id_pasien)
+);</pre>
+            </div>
+
+            <h3>Kasus 5: Sistem Karyawan dan Project</h3>
+
+            <div class="example-box">
+                <h4>Skenario</h4>
+                <p>Project dikerjakan banyak karyawan, Karyawan bekerja di banyak project. Intersection table PENUGASAN mencatat siapa bekerja di project mana dan peran mereka.</p>
+
+                <div class="diagram">
+                    <p><strong>KARYAWAN</strong> ← 1:N → <strong>PENUGASAN</strong> ← N:1 → <strong>PROJECT</strong></p>
+                </div>
+
+                <table>
+                    <tr>
+                        <th colspan="2">KARYAWAN</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Karyawan (PK)</th>
+                        <th>Nama</th>
+                    </tr>
+                    <tr>
+                        <td>K001</td>
+                        <td>Gilang Ramadhan</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="2">PROJECT</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Project (PK)</th>
+                        <th>Nama_Project</th>
+                    </tr>
+                    <tr>
+                        <td>PJ001</td>
+                        <td>Sistem Perpustakaan</td>
+                    </tr>
+                </table>
+
+                <table>
+                    <tr>
+                        <th colspan="5">PENUGASAN (Intersection Table)</th>
+                    </tr>
+                    <tr>
+                        <th>ID_Penugasan (PK)</th>
+                        <th>ID_Karyawan (FK)</th>
+                        <th>ID_Project (FK)</th>
+                        <th>Peran</th>
+                        <th>Jam_Kerja</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>K001</td>
+                        <td>PJ001</td>
+                        <td>Backend Developer</td>
+                        <td>160</td>
+                    </tr>
+                </table>
+
+                <pre>CREATE TABLE karyawan (
+    id_karyawan VARCHAR(10) PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    departemen VARCHAR(50)
+);
+
+CREATE TABLE project (
+    id_project VARCHAR(10) PRIMARY KEY,
+    nama_project VARCHAR(200) NOT NULL,
+    budget DECIMAL(15,2)
+);
+
+CREATE TABLE penugasan (
+    id_penugasan INT PRIMARY KEY AUTO_INCREMENT,
+    id_karyawan VARCHAR(10) NOT NULL,
+    id_project VARCHAR(10) NOT NULL,
+    peran VARCHAR(50),
+    jam_kerja INT,
+    FOREIGN KEY (id_karyawan) REFERENCES karyawan(id_karyawan),
+    FOREIGN KEY (id_project) REFERENCES project(id_project)
+);</pre>
+            </div>
+
+            <h3>Best Practices untuk Intersection Table</h3>
+
+            <div class="warning-box">
+                <h4>Hal-hal Penting yang Harus Diperhatikan:</h4>
+                <ul>
+                    <li><strong>Primary Key:</strong> Gunakan auto-increment atau composite key yang jelas</li>
+                    <li><strong>Foreign Keys:</strong> Selalu definisikan dengan ON DELETE CASCADE atau ON DELETE RESTRICT</li>
+                    <li><strong>Unique Constraint:</strong> Hindari duplikasi dengan UNIQUE KEY pada kombinasi FK</li>
+                    <li><strong>Attribute Tambahan:</strong> Simpan data yang relevan dengan relasi (nilai, tanggal, status, peran)</li>
+                    <li><strong>Indexing:</strong> Buat index pada foreign key untuk performa query yang lebih baik</li>
+                    <li><strong>Naming Convention:</strong> Gunakan nama yang deskriptif dan konsisten</li>
+                    <li><strong>Testing:</strong> Test query JOIN dengan data sample sebelum production</li>
+                </ul>
+            </div>
+
+            <h3>Query Umum untuk Intersection Table</h3>
+
+            <div class="example-box">
+                <p><strong>1. Menampilkan semua relasi dengan JOIN:</strong></p>
+                <pre>SELECT m.nim, m.nama, mk.nama_mk, k.nilai
+FROM mahasiswa m
+JOIN krs k ON m.nim = k.nim
+JOIN mata_kuliah mk ON k.kode_mk = mk.kode_mk;</pre>
+
+                <p><strong>2. Menghitung jumlah dengan GROUP BY:</strong></p>
+                <pre>SELECT mk.nama_mk, COUNT(k.nim) as jumlah_mahasiswa
+FROM mata_kuliah mk
+LEFT JOIN krs k ON mk.kode_mk = k.kode_mk
+GROUP BY mk.kode_mk;</pre>
+
+                <p><strong>3. Insert relasi baru:</strong></p>
+                <pre>INSERT INTO krs (nim, kode_mk, semester, nilai) 
+VALUES ('24416255201003', 'TI101', 'Ganjil 2024', 'A');</pre>
+
+                <p><strong>4. Update relasi:</strong></p>
+                <pre>UPDATE krs SET nilai = 'A' 
+WHERE nim = '24416255201003' AND kode_mk = 'TI101';</pre>
+
+                <p><strong>5. Hapus relasi:</strong></p>
+                <pre>DELETE FROM krs 
+WHERE nim = '24416255201003' AND kode_mk = 'TI101';</pre>
+            </div>
+
+            <h3>Kesimpulan</h3>
+
+            <div class="highlight-box">
+                <p>Intersection Table adalah solusi elegan dan powerful untuk mengimplementasikan relasi many-to-many dalam database relasional. Melalui 5 kasus praktis yang telah dijelaskan, Anda dapat melihat bahwa pola ini berlaku secara universal untuk berbagai skenario dunia nyata: akademik, penerbitan, event management, healthcare, dan project management. Dengan menguasai konsep intersection table, Anda dapat merancang database yang robust, scalable, dan mudah dimaintain untuk aplikasi yang kompleks sekalipun.</p>
+            </div>
+
+            <a href="index.html" class="back-link">← Kembali ke Beranda</a>
+        </article>
+    </div>
+</body>
+</html>
